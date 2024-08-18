@@ -1,9 +1,15 @@
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import './mockEnv.ts';
+import Root from './Root';
+import './mockEnv';
 import reportWebVitals from './reportWebVitals';
-import Root from 'Root';
+import { Buffer } from 'buffer';
 
+declare global {
+  interface Window {
+    Buffer: typeof Buffer;
+  }
+}
+globalThis.Buffer = Buffer;
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<Root />);
 

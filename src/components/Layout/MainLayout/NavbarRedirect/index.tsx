@@ -1,11 +1,11 @@
-import HomeActiveIcon from 'assets/icons/navbar/home-active.png';
-import HomeIcon from 'assets/icons/navbar/home.png';
-import LeaderboardActiveIcon from 'assets/icons/navbar/leaderboard-active.png';
-import LeaderboardIcon from 'assets/icons/navbar/leaderboard.png';
-import MissionsActiveIcon from 'assets/icons/navbar/mission-active.png';
-import MissionsIcon from 'assets/icons/navbar/mission.png';
-import FriendsActiveIcon from 'assets/icons/navbar/refer-active.png';
-import FriendsIcon from 'assets/icons/navbar/refer.png';
+import HomeActiveIcon from '@/assets/icons/navbar/home-active.png';
+import HomeIcon from '@/assets/icons/navbar/home.png';
+import LeaderboardActiveIcon from '@/assets/icons/navbar/leaderboard-active.png';
+import LeaderboardIcon from '@/assets/icons/navbar/leaderboard.png';
+import MissionsActiveIcon from '@/assets/icons/navbar/mission-active.png';
+import MissionsIcon from '@/assets/icons/navbar/mission.png';
+import FriendsActiveIcon from '@/assets/icons/navbar/refer-active.png';
+import FriendsIcon from '@/assets/icons/navbar/refer.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const NAV_LIST = [

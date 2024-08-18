@@ -1,7 +1,9 @@
 import { initInitData, initMiniApp } from '@telegram-apps/sdk';
-import axiosInstance from 'axiosConfig';
-import { MissionIconType, MissionStatus } from 'containers/MissionPage/MissionItem';
+import axiosInstance from '@/axiosConfig';
+import { MissionIconType, MissionStatus } from '@/containers/MissionPage/MissionItem';
+import { UnderwarterLevel } from '@/containers/StoriesPage/Stories1/Stories_1';
 import { create } from 'zustand';
+import { sleep } from '@/utils';
 
 export type Missions = {
   type: string;
@@ -37,6 +39,25 @@ interface SharkState {
   getMissions: () => Promise<void>;
 }
 
+const preloadBanner = () => {
+  const img = new Image();
+  img.src = '/assets/images/banner.png';
+  img.onload = () => {
+    console.log('loaded');
+  };
+};
+
+const preloadAnimation = () => {
+  const obj = { ...UnderwarterLevel } as any;
+  for (const property in obj) {
+    const img = new Image();
+    img.src = obj[property].imagePath;
+    img.onload = () => {
+      console.log('loaded');
+    };
+  }
+};
+
 const parseMissions = (data: any): Missions[] => {
   const { mission } = data;
   const result: Missions[] = [];
@@ -65,10 +86,15 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     if (!isMiniApp.ready) {
       return;
     }
-
+    await sleep(1000);
     try {
       const { login, getMissions } = get();
-      await Promise.all([login(), getMissions()]);
+      await Promise.all([
+        // login(),
+        //  getMissions(),
+        preloadAnimation(),
+        preloadBanner(),
+      ]);
       set({ isInitFinished: true });
     } catch (error) {
       console.log(error);
@@ -81,7 +107,6 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
       throw new Error('initData is not defined');
     }
     const { user } = initData;
-
     const body = {
       uid: user.id,
       username: user.username || user.lastName + ' ' + user.firstName,

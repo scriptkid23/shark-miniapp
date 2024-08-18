@@ -1,11 +1,7 @@
-
-import {
-  SDKProvider,
-  useLaunchParams
-} from '@telegram-apps/sdk-react';
+import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import App from 'App';
-import { ErrorBoundary } from 'components/Layout/ErrorBoundary';
+import App from '@/App';
+import { ErrorBoundary } from '@/components/Layout/ErrorBoundary';
 import { FC, useEffect, useMemo } from 'react';
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
@@ -19,10 +15,12 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
+  console.log(useLaunchParams().startParam, 'thangpham123hello');
   const manifestUrl = useMemo(() => {
-    return new URL('tonconnect-manifest.json', window.location.href).toString();
+    return new URL('https://test-youtube.s3.amazonaws.com/manifest.json').toString();
   }, []);
   useEffect(() => {
+    console.log(debug, 'thangpham123');
     if (debug) {
       import('eruda').then((lib) => lib.default.init());
     }

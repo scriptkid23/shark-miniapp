@@ -1,6 +1,7 @@
-import { Missions, useSharkStore } from 'stores/shark_store';
+import { Missions, useSharkStore } from '@/stores/shark_store';
 import MissionItem, { MissionStatus } from './MissionItem';
 import MisstionTypeWrapper from './MisssionTypeWrapper';
+import { useTonConnectUI } from '@tonconnect/ui-react';
 
 type Props = {};
 
@@ -59,12 +60,28 @@ const MockMission: Missions[] = [
     ],
   },
 ];
+const transaction1 = {
+  validUntil: Math.floor(Date.now() / 1000) + 360,
+  messages: [
+    {
+      address: '0:412410771DA82CBA306A55FA9E0D43C9D245E38133CB58F1457DFB8D5CD8892F', // destination address
+      amount: '20000000', //Toncoin in nanotons
+    },
+  ],
+};
 
 const MissionPage = (props: Props) => {
   const { missions } = useSharkStore();
+  const [tonConnectUI, setOptions] = useTonConnectUI();
+
+  const handleOnClick = () => {
+    tonConnectUI.sendTransaction(transaction1);
+  };
+
   return (
     <div className="w-full h-full px-4 pt-9 overflow-y-auto">
       <h1 className="text-center text-2xl font-medium mb-6">Missions</h1>
+      <button onClick={handleOnClick}>test</button>
       <div>
         {MockMission.map((mission, index) => {
           return (

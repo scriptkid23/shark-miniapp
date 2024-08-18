@@ -1,9 +1,9 @@
 import { TonConnectButton, useTonConnectModal, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
-import SharkIcon from 'assets/icons/shark-icons.svg';
-import HomeBannerImg from 'assets/images/home-banner.png';
-import WalletButton from 'components/WalletButton';
+import WalletButton from '@/components/WalletButton';
+import { useNavigate } from 'react-router-dom';
 import RewardContainer from './RewardContainer';
-
+import HomeBannerImg from '@/assets/images/home-banner.png';
+import SharkIcon from '@/assets/icons/shark-icons.svg';
 export const Header = () => {
   return (
     <header>
@@ -74,12 +74,21 @@ const HeadBanner = () => {
 };
 
 const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full h-full m-auto overflow-y-auto relative">
       <div className="w-full absolute top-0 left-0">
         <img className="w-full object-contain" src={HomeBannerImg} alt="banner"></img>
       </div>
+
       <div className="min-w-0 mx-auto pt-[20vh] transform px-4">
+        <p
+          onClick={() => {
+            navigate('/stories');
+          }}
+        >
+          temp
+        </p>
         <HeadBanner />
         <RewardContainer />
       </div>

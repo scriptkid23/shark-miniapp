@@ -1,10 +1,8 @@
+import HookIcon from '@/assets/images/underwarter/hook.png';
+import { numberWithCommas } from '@/utils';
 import { WithSeeMore } from 'react-insta-stories';
 import { Renderer } from 'react-insta-stories/dist/interfaces';
-import { QRCode } from 'react-qrcode-logo';
-import { useNavigate } from 'react-router-dom';
-import HookIcon from 'assets/images/underwarter/hook.png';
 import CustomCollapsedComponent from '../CustomCollapsed';
-import { numberWithCommas } from 'utils';
 
 const Stories_2: Renderer = ({ story, action }) => {
   return (

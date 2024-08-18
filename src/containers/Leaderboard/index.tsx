@@ -1,9 +1,9 @@
-import SmileFaceIcon from 'assets/icons/smile.png';
-import { numberWithCommas } from 'utils';
-import Medal1 from 'assets/icons/1st_medal.png';
-import Medal2 from 'assets/icons/2nd_medal.png';
-import Medal3 from 'assets/icons/3rd_medal.png';
-import { useSharkStore } from 'stores/shark_store';
+import SmileFaceIcon from '@/assets/icons/smile.png';
+import { numberWithCommas } from '@/utils';
+import Medal1 from '@/assets/icons/1st_medal.png';
+import Medal2 from '@/assets/icons/2nd_medal.png';
+import Medal3 from '@/assets/icons/3rd_medal.png';
+import { useSharkStore } from '@/stores/shark_store';
 import { useInitDataRaw } from '@telegram-apps/sdk-react';
 
 type Props = {};
@@ -82,7 +82,7 @@ const LeaderboardPage = (props: Props) => {
             const isHaveAvatar = !!item.avatar;
             return (
               <div
-                key={item.name}
+                key={index}
                 className={`flex items-center justify-between rounded-[18px] ${index !== 0 ? 'mt-7' : ''}`}
               >
                 <div

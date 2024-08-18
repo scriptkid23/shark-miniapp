@@ -1,6 +1,6 @@
 // axiosConfig.ts
 import axios, { AxiosInstance } from 'axios';
-
+import { retrieveLaunchParams } from '@telegram-apps/sdk';
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: 'https://b28d-2405-4802-1c62-2ac0-44f-282c-a3fc-f7fb.ngrok-free.app/api',
@@ -18,7 +18,9 @@ const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     // Modify config before the request is sent
-    // config.headers['ngrok-skip-browser-warning']=true
+    // config.headers['ngrok-skip-browser-warning']=true]
+    const { initDataRaw } = retrieveLaunchParams();
+    config.headers['Authorization'] = 'tma ' + (initDataRaw as string);
     return config;
   },
   (error) => {

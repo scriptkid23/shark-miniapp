@@ -1,4 +1,4 @@
-import HookImage from 'assets/images/hook-color.png';
+import HookImage from '@/assets/images/hook-color.png';
 import InviteGroup from './InviteGroup';
 type Props = {};
 

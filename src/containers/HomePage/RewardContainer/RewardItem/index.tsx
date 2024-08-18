@@ -1,5 +1,5 @@
-import FishIcon from 'assets/icons/fish.png';
-import ConfettiIcon from 'assets/icons/confetti_ball.png';
+import FishIcon from '@/assets/icons/fish.png';
+import ConfettiIcon from '@/assets/icons/confetti_ball.png';
 
 type Props = {
   icon_id: number;

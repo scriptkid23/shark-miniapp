@@ -3,11 +3,11 @@ import { mockTelegramEnv, parseInitData, retrieveLaunchParams } from '@telegram-
 // It is important, to mock the environment only for development purposes. When building the
 // application, import.meta.env.DEV will become false, and the code inside will be tree-shaken,
 // so you will not see it in your final bundle.
+console.log(import.meta.env.DEV)
 if (true) {
   let shouldMock: boolean;
-
+  shouldMock = true;
   // Try to extract launch parameters to check if the current environment is Telegram-based.
-  debugger
   try {
     // If we are able to extract launch parameters, it means that we are already in the
     // Telegram environment. So, there is no need to mock it.
@@ -20,7 +20,6 @@ if (true) {
   } catch (e) {
     shouldMock = true;
   }
-
   if (shouldMock) {
     const initDataRaw = new URLSearchParams([
       [
@@ -41,6 +40,7 @@ if (true) {
       ['chat_type', 'sender'],
       ['chat_instance', '8428209589180549439'],
     ]).toString();
+    console.log(initDataRaw)
 
     mockTelegramEnv({
       themeParams: {
@@ -62,6 +62,7 @@ if (true) {
       initDataRaw,
       version: '7.2',
       platform: 'tdesktop',
+      startParam: 'debug',
     });
     sessionStorage.setItem('____mocked', '1');
     console.info(

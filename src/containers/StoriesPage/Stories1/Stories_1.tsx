@@ -1,39 +1,37 @@
-import fishIcon from 'assets/images/underwarter/fish.png';
-import sharkIcon from 'assets/images/underwarter/shark.png';
-import squidIcon from 'assets/images/underwarter/squid.png';
-import whaleIcon from 'assets/images/underwarter/whale.png';
 import { WithSeeMore } from 'react-insta-stories';
 import { Renderer } from 'react-insta-stories/dist/interfaces';
 import { QRCode } from 'react-qrcode-logo';
-import CustomCollapsedComponent from '../CustomCollapsed';
-const UnderwarterLevel = {
+export const UnderwarterLevel = {
   1: {
     name: 'Fish',
-    imagePath: fishIcon,
+    imagePath:
+      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Fish.webp',
   },
   2: {
     name: 'Squid',
-    imagePath: squidIcon,
+    imagePath:
+      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Squid.webp',
   },
   3: {
     name: 'Shark',
-    imagePath: sharkIcon,
+    imagePath:
+      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Shark.png',
   },
   4: {
     name: 'Whale',
-    imagePath: whaleIcon,
+    imagePath:
+      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Spouting%20Whale.webp',
   },
 };
 
-
 const Stories_1: Renderer = ({ story, action }) => {
   return (
-    <WithSeeMore story={story} action={action} customCollapsed={CustomCollapsedComponent}>
-      <div className="h-full w-full pt-10 px-[10px] text-center">
+    <WithSeeMore story={story} action={action} customCollapsed={() => <></>}>
+      <div className=" w-full pt-10 px-[10px] text-center h-screen">
         <h1 className="text-5xl font-syneTactile">Ton Fish</h1>
         <p className="font-medium text-[#A7A7A8] text-lg">You’ve joined Ton network</p>
         <div className="w-[120px] h-[120px] m-auto">
-          <img className="w-full h-full" src={UnderwarterLevel[1].imagePath} alt="animal" />
+          <img className="w-full h-full" src={UnderwarterLevel[4].imagePath} alt="animal" />
         </div>
         <h3 className="text-[64px] font-medium font-rubik inline-block text-transparent bg-clip-text bg-[linear-gradient(186deg,_#2B6DFD_20.1%,_#091633_86.53%)] leading-tight">
           10

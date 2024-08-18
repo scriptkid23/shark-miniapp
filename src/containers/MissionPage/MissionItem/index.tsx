@@ -1,8 +1,8 @@
-import HookIcon from 'assets/icons/mission/hook.png';
+import HookIcon from '@/assets/icons/mission/hook.png';
 import { useState } from 'react';
-import TeleIcon from 'assets/icons/mission/tele.png';
-import TwitchIcon from 'assets/icons/mission/twitter.png';
-import FriendIcon from 'assets/icons/mission/friend.png';
+import TeleIcon from '@/assets/icons/mission/tele.png';
+import TwitchIcon from '@/assets/icons/mission/twitter.png';
+import FriendIcon from '@/assets/icons/mission/friend.png';
 
 export enum MissionStatus {
   DONE = 'done',
