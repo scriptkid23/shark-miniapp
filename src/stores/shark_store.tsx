@@ -4,6 +4,7 @@ import { MissionIconType, MissionStatus } from '@/containers/MissionPage/Mission
 import { UnderwarterLevel } from '@/containers/StoriesPage/Stories1/Stories_1';
 import { create } from 'zustand';
 import { sleep } from '@/utils';
+import { userMock } from './mockData';
 
 export type Missions = {
   type: string;
@@ -20,13 +21,17 @@ export type Missions = {
 export type User = {
   id: number;
   userName: string;
-  wallet: string;
+  wallet?: string;
   codeInvite: string;
   point: number;
   isPremium: boolean;
   invitedById: number;
   createdAt: string;
   rank: number;
+  transaction: {
+    total: number | null;
+    point: number;
+  };
 };
 interface SharkState {
   isInitFinished: boolean;
@@ -34,9 +39,9 @@ interface SharkState {
   missions?: Missions[];
 
   initStore: () => void;
-  test?: any;
   login: () => Promise<void>;
   getMissions: () => Promise<void>;
+  setTransaction: (total: number, point: number) => void;
 }
 
 const preloadBanner = () => {
@@ -86,11 +91,10 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     if (!isMiniApp.ready) {
       return;
     }
-    await sleep(1000);
     try {
       const { login, getMissions } = get();
       await Promise.all([
-        // login(),
+        login(),
         //  getMissions(),
         preloadAnimation(),
         preloadBanner(),
@@ -102,18 +106,19 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   },
 
   login: async () => {
-    const initData = initInitData();
-    if (!initData?.user) {
-      throw new Error('initData is not defined');
-    }
-    const { user } = initData;
-    const body = {
-      uid: user.id,
-      username: user.username || user.lastName + ' ' + user.firstName,
-      isPremium: !!user.isPremium,
-    };
-    const { data } = await axiosInstance.post('/user/login', body);
-    set({ user: data });
+    // const initData = initInitData();
+    // if (!initData?.user) {
+    //   throw new Error('initData is not defined');
+    // }
+    // const { user } = initData;
+    // const body = {
+    //   uid: user.id,
+    //   username: user.username || user.lastName + ' ' + user.firstName,
+    //   isPremium: !!user.isPremium,
+    // };
+    // const { data } = await axiosInstance.post('/user/login', body);
+    // set({ user: data });
+    set({ user: userMock });
   },
 
   getMissions: async () => {
@@ -124,5 +129,13 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   getLeaderboard: async () => {
     const { data } = await axiosInstance.get('/user/get-leaderboard');
     console.log(data);
+  },
+
+  setTransaction: (total: number, point: number) => {
+    const { user } = get();
+    if (!user) {
+      return;
+    }
+    set({ user: { ...user, transaction: { total, point } } });
   },
 }));

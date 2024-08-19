@@ -71,17 +71,10 @@ const transaction1 = {
 };
 
 const MissionPage = (props: Props) => {
-  const { missions } = useSharkStore();
-  const [tonConnectUI, setOptions] = useTonConnectUI();
-
-  const handleOnClick = () => {
-    tonConnectUI.sendTransaction(transaction1);
-  };
-
   return (
     <div className="w-full h-full px-4 pt-9 overflow-y-auto">
       <h1 className="text-center text-2xl font-medium mb-6">Missions</h1>
-      <button onClick={handleOnClick}>test</button>
+
       <div>
         {MockMission.map((mission, index) => {
           return (

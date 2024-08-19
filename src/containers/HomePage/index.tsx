@@ -1,17 +1,12 @@
-import { TonConnectButton, useTonConnectModal, useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
+import SharkIcon from '@/assets/icons/shark-icons.svg';
+import HomeBannerImg from '@/assets/images/home-banner.png';
 import WalletButton from '@/components/WalletButton';
+import { useSharkStore } from '@/stores/shark_store';
+import { numberWithCommas } from '@/utils';
+import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 import { useNavigate } from 'react-router-dom';
 import RewardContainer from './RewardContainer';
-import HomeBannerImg from '@/assets/images/home-banner.png';
-import SharkIcon from '@/assets/icons/shark-icons.svg';
-export const Header = () => {
-  return (
-    <header>
-      <span>My App with React UI</span>
-      <TonConnectButton />
-    </header>
-  );
-};
+
 export const Wallet = () => {
   const wallet = useTonWallet();
   return (
@@ -32,37 +27,46 @@ export const Wallet = () => {
     )
   );
 };
-export const ModalControl = () => {
-  const { state, open, close } = useTonConnectModal();
-  const [tonConnectUI] = useTonConnectUI();
-  return (
-    <div>
-      <div>Modal state: {state?.status}</div>
-      <button onClick={open}>Open modal</button>
-      <button onClick={() => close()}>Close modal</button>
-      <button onClick={() => tonConnectUI.disconnect()}> test disconnect</button>
-    </div>
-  );
-};
 
 const CheckingTotalTxButton = () => {
+  const navigate = useNavigate();
+  const wallet = useTonWallet();
+  const handleTx = async () => {
+    try {
+      navigate('/loading-transaction');
+      // await checkingTotalTransaction();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <button className="w-full py-2 px-4 bg-[linear-gradient(204deg,_#2B6DFD_13.83%,_#091633_109.1%)] rounded-lg mt-4">
-      <span className="text-white text-sm">Checking Total on-chain transaction</span>
+    <button
+      disabled={!wallet}
+      onClick={handleTx}
+      className="w-full py-2 px-4 bg-[linear-gradient(204deg,_#2B6DFD_13.83%,_#091633_109.1%)] rounded-lg mt-4 disabled:bg-none disabled:bg-[#282829] disabled:text-[#666666] disabled:cursor-not-allowed"
+    >
+      <span className="text-sm">Checking Total on-chain transaction</span>
     </button>
   );
 };
 
 const HeadBanner = () => {
+  const { user } = useSharkStore();
+
+  const navigate = useNavigate();
+  const handleNavigate = (path: string) => navigate(path);
+
   return (
     <div className="relative w-full m-auto">
       <div className=" w-full p-4 bg-[#111] rounded-lg m-auto">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[32px] font-medium font-rubik leading-none">5,95</span>
+            <span className="text-[32px] font-medium font-rubik leading-none">
+              {numberWithCommas(user?.point || 0)}
+            </span>
             <span className="block text-[18px] font-normal text-[#424242]">$BAITS</span>
           </div>
-          <div className="items-start self-start">
+          <div className="items-start self-start cursor-pointer" onClick={() => handleNavigate('/stories')}>
             <img src={SharkIcon} alt="banner"></img>
           </div>
         </div>
@@ -74,7 +78,6 @@ const HeadBanner = () => {
 };
 
 const HomePage = () => {
-  const navigate = useNavigate();
   return (
     <div className="w-full h-full m-auto overflow-y-auto relative">
       <div className="w-full absolute top-0 left-0">
@@ -82,13 +85,6 @@ const HomePage = () => {
       </div>
 
       <div className="min-w-0 mx-auto pt-[20vh] transform px-4">
-        <p
-          onClick={() => {
-            navigate('/stories');
-          }}
-        >
-          temp
-        </p>
         <HeadBanner />
         <RewardContainer />
       </div>
