@@ -101,11 +101,12 @@ const LoadingTransaction = (props: Props) => {
     const checkTransactionAndNavigate = async () => {
       try {
         await promise;
-        const { data } = await checkingTotalTransaction(wallet?.account?.address || '', abortController);
-        if (abortController.signal.aborted) return;
-        setTransaction(data.total, data.point);
-        if (abortController.signal.aborted) return;
-
+        
+        // const { data } = await checkingTotalTransaction(wallet?.account?.address || '', abortController);
+        // if (abortController.signal.aborted) return;
+        // setTransaction(data.total, data.point);
+        // if (abortController.signal.aborted) return;
+        setTransaction(100, 100);
         navigate('stories');
       } catch (error: any) {
         if (error?.name === 'AbortError') return;

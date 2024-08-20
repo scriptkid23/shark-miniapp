@@ -15,7 +15,7 @@ const Stories_2: Renderer = ({ story, action }) => {
         <div className="w-[120px] h-[120px] m-auto mt-[48px]">
           <img className="w-full h-full" src={HookIcon} alt="animal" />
         </div>
-        <h3 className='font-rubik text-5xl mt-[64px]'>{numberWithCommas(user?.point || 0)}</h3>
+        <h3 className='font-rubik text-5xl mt-[64px]'>{numberWithCommas(user?.transaction.point || 0)}</h3>
         <p className='font-medium text-[#A7A7A8] text-lg'>Thanks for your time on Ton network 🤝</p>
       </div>
     </WithSeeMore>

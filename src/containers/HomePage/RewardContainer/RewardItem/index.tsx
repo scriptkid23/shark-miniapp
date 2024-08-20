@@ -1,10 +1,12 @@
 import FishIcon from '@/assets/icons/fish.png';
 import ConfettiIcon from '@/assets/icons/confetti_ball.png';
 
+
 type Props = {
-  icon_id: number;
-  title: string;
-  value: string;
+  iconId: number;
+  name: string;
+  description: string;
+  point: number;
   currency?: string;
   isPositive?: boolean;
 };
@@ -15,16 +17,16 @@ const mappingIconId: Record<number, string> = {
 };
 
 const RewardItem = (props: Props) => {
-  const { icon_id, title, value, currency = 'BAITS', isPositive = true } = props;
+  const { iconId, name, description, point, currency = 'BAITS', isPositive = true } = props;
   return (
     <div className="flex items-center justify-between mb-2 last:mb-0">
       <div className="flex items-center">
-        <img src={mappingIconId[icon_id] || ''} alt="icon" />
-        <p className='ml-3 text-xs font-medium'>{title}</p>
+        <img src={mappingIconId[iconId] || ''} alt="icon" />
+        <p className='ml-3 text-xs font-medium'>{name}</p>
       </div>
       <div>
         <p className='text-sm font-semibold'>
-          {isPositive ? '+' : '-'}{value} {currency}
+          {isPositive ? '+' : '-'}{point} {currency}
         </p>
       </div>
     </div>

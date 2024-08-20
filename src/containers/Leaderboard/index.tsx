@@ -5,6 +5,8 @@ import Medal2 from '@/assets/icons/2nd_medal.png';
 import Medal3 from '@/assets/icons/3rd_medal.png';
 import { useSharkStore } from '@/stores/shark_store';
 import { useInitDataRaw } from '@telegram-apps/sdk-react';
+import { useEffect, useState } from 'react';
+import axiosInstance from '@/axiosConfig';
 
 type Props = {};
 
@@ -16,55 +18,65 @@ const getMedal = (index: number) => {
 
 const MOCK_LEADERBOARD = [
   {
-    name: 'victor',
-    balance: 1000,
+    playerName: 'victor',
+    score: 1000,
     avatar: SmileFaceIcon,
   },
   {
-    name: 'david',
-    balance: 1000,
+    playerName: 'david',
+    score: 1000,
     avatar: SmileFaceIcon,
   },
   {
-    name: 'kevin',
-    balance: 1000,
+    playerName: 'kevin',
+    score: 1000,
   },
   {
-    name: 'tom',
-    balance: 1000,
+    playerName: 'tom',
+    score: 1000,
   },
   {
-    name: '123abc',
-    balance: 1000,
+    playerName: '123abc',
+    score: 1000,
   },
   {
-    name: '123abc',
-    balance: 1000,
+    playerName: '123abc',
+    score: 1000,
   },
   {
-    name: '123abc',
-    balance: 1000,
+    playerName: '123abc',
+    score: 1000,
   },
   {
-    name: '123abc',
-    balance: 1000,
+    playerName: '123abc',
+    score: 1000,
   },
   {
-    name: '123abc',
-    balance: 1000,
+    playerName: '123abc',
+    score: 1000,
   },
 ];
 
 const LeaderboardPage = (props: Props) => {
   const { user } = useSharkStore();
   const data = useInitDataRaw();
+  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data } = await axiosInstance.get('/leader-board');
+      setLeaderboard(data.data.leaderBoard);
+    };
+    fetchData();
+  }, []);
+  console.log(leaderboard, 'thangpham123123');
   return (
     <div className="w-full h-full m-auto py-9 px-4 overflow-y-auto">
       <h1 className="text-white text-2xl font-medium text-center">Rank</h1>
       <div className="flex items-center justify-between bg-[#0E2454] p-4 rounded-[18px] mt-6">
         <div className="flex items-center justify-center">
           <div className="w-[46px] h-[46px]">
-            <img className="w-full h-full" src={data.result?.user?.photoUrl} alt="smile-face" />
+            <img className="w-full h-full" src={data.result?.user?.photoUrl || SmileFaceIcon} alt="smile-face" />
           </div>
           <div className="ml-5">
             <p className="text-sm font-medium">{user?.userName}</p>
@@ -72,13 +84,13 @@ const LeaderboardPage = (props: Props) => {
           </div>
         </div>
         <div>
-          <p className="text-sm">#176616</p>
+          <p className="text-sm">#{user?.rank}</p>
         </div>
       </div>
       <div className="mt-9 h-auto overflow-y-auto">
-        <h3 className="text-lg font-semibold mb-6">{numberWithCommas(user?.point || 0)} holders</h3>
+        <h3 className="text-lg font-semibold mb-6">{numberWithCommas(leaderboard.length || 0)} holders</h3>
         <div className="overflow-y-auto">
-          {MOCK_LEADERBOARD.map((item, index) => {
+          {leaderboard.map((item, index) => {
             const isHaveAvatar = !!item.avatar;
             return (
               <div
@@ -93,12 +105,14 @@ const LeaderboardPage = (props: Props) => {
                   )}
                 </div>
                 <div className="flex flex-col flex-1">
-                  <p className="text-sm">{item.name}</p>
-                  <p className="text-base font-semibold">{numberWithCommas(item.balance)} BAITS</p>
+                  <p className="text-sm">{item.playerName || 'Victor Hugo'}</p>
+                  <p className="text-base font-semibold">{numberWithCommas(item.score || 0)} BAITS</p>
                 </div>
                 <div>
                   {!!getMedal(index) ? (
-                    <img width={46} height={46} src={getMedal(index)} alt="medal" />
+                    <div className="w-[46px] h-[46px]">
+                      <img className="w-full h-full object-cover" src={getMedal(index)} alt="medal" />
+                    </div>
                   ) : (
                     <p className="text-sm">{'#' + (index + 1)}</p>
                   )}

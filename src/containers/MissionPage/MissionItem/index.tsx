@@ -6,6 +6,7 @@ import FriendIcon from '@/assets/icons/mission/friend.png';
 import { checkMission } from '@/apis';
 import { address, Address, beginCell } from '@ton/core';
 import { SendTransactionRequest, useTonConnectUI } from '@tonconnect/ui-react';
+import { numberWithCommas } from '@/utils';
 
 export enum MissionStatus {
   DONE = 'done',
@@ -129,7 +130,7 @@ const MissionItem = (props: Props) => {
         </div>
         <div className="flex-1 ml-[15px]">
           <p className="text-sm font-semibold mb-0.5">{mission.title}</p>
-          <p className="text-xs font-normal">+{mission.value} BAITS</p>
+          <p className="text-xs font-normal">+{numberWithCommas(mission.value)} BAITS</p>
         </div>
         <div>
           <button

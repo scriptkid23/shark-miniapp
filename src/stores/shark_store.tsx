@@ -85,7 +85,7 @@ const parseMissions = (data: any): Missions[] => {
               description: item.description,
               value: item.point || 0,
               iconId: item.icon_id,
-              status: parseStatus(item.is_claimed),
+              status: parseStatus(item.claimed),
             }))
           : [],
     });
@@ -123,13 +123,11 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
       isPremium: !!user.isPremium,
     };
     const { data } = await axiosInstance.post('/user/login', body);
-    set({ user: data });
-    // set({ user: userMock });
+    set({ user: data.user });
   },
 
   getMissions: async () => {
     const { data } = await axiosInstance.get('/user/get-mission');
-    console.log(data);
     const missions = parseMissions(data);
     set({ missions });
   },
