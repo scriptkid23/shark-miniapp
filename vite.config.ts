@@ -6,7 +6,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/app',
+  base: '/',
   plugins: [react()],
   server: {
     port: 3000,
