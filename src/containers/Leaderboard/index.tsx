@@ -16,41 +16,41 @@ const getMedal = (index: number) => {
 
 const MOCK_LEADERBOARD = [
   {
-    name: 'ngthuan15',
+    name: 'victor',
     balance: 1000,
     avatar: SmileFaceIcon,
   },
   {
-    name: 'thangpham',
+    name: 'david',
     balance: 1000,
     avatar: SmileFaceIcon,
   },
   {
-    name: 'minhphan',
+    name: 'kevin',
     balance: 1000,
   },
   {
-    name: 'chientran',
+    name: 'tom',
     balance: 1000,
   },
   {
-    name: 'bexuanmailonton',
+    name: '123abc',
     balance: 1000,
   },
   {
-    name: 'bexuanmailonton',
+    name: '123abc',
     balance: 1000,
   },
   {
-    name: 'bexuanmailonton',
+    name: '123abc',
     balance: 1000,
   },
   {
-    name: 'bexuanmailonton',
+    name: '123abc',
     balance: 1000,
   },
   {
-    name: 'bexuanmailonton',
+    name: '123abc',
     balance: 1000,
   },
 ];

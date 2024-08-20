@@ -19,7 +19,6 @@ const Inner: FC = () => {
     return new URL('https://test-youtube.s3.amazonaws.com/manifest.json').toString();
   }, []);
   useEffect(() => {
-    console.log(debug, 'thangpham123');
     if (debug) {
       import('eruda').then((lib) => lib.default.init());
     }

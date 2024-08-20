@@ -112,7 +112,6 @@ const MissionItem = (props: Props) => {
       if (boc) {
         tx = boc;
       }
-      console.log('thangphamtx', tx);
       await checkMission(mission.id, tx);
       setStatus(MissionStatus.DONE);
     } catch (error) {
