@@ -2,6 +2,8 @@ import ReactInstaStories from 'react-insta-stories';
 import { Story } from 'react-insta-stories/dist/interfaces';
 import Stories_1 from './Stories1/Stories_1';
 import Stories_2 from './Stories2';
+import { useSharkStore } from '@/stores/shark_store';
+import { Navigate } from 'react-router-dom';
 type Props = {};
 
 const stories: Story[] = [
@@ -15,6 +17,9 @@ const stories: Story[] = [
   },
 ];
 const StoriesPage = (props: Props) => {
+  const { user } = useSharkStore();
+
+  if (!user?.transaction || user.transaction.point < 0) return <Navigate to="/" />;
   return (
     <div className="w-full max-w-md mx-auto h-screen">
       <ReactInstaStories

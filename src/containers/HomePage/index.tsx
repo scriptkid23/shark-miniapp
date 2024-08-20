@@ -55,7 +55,7 @@ const HeadBanner = () => {
 
   const navigate = useNavigate();
   const handleNavigate = (path: string) => navigate(path);
-
+  const isCheckedTx = user?.transaction?.point && user?.transaction?.point > -1;
   return (
     <div className="relative w-full m-auto">
       <div className=" w-full p-4 bg-[#111] rounded-lg m-auto">
@@ -66,7 +66,10 @@ const HeadBanner = () => {
             </span>
             <span className="block text-[18px] font-normal text-[#424242]">$BAITS</span>
           </div>
-          <div className="items-start self-start cursor-pointer" onClick={() => handleNavigate('/stories')}>
+          <div
+            className={`items-start self-start cursor-pointer ${isCheckedTx ? 'opacity-100' : 'opacity-20'}`}
+            onClick={() => handleNavigate('/stories')}
+          >
             <img src={SharkIcon} alt="banner"></img>
           </div>
         </div>
@@ -84,7 +87,7 @@ const HomePage = () => {
         <img className="w-full object-contain" src={HomeBannerImg} alt="banner"></img>
       </div>
 
-      <div className="min-w-0 mx-auto pt-[20vh] transform px-4">
+      <div className="min-w-0 mx-auto pt-[20vh] transform px-4 h-full ">
         <HeadBanner />
         <RewardContainer />
       </div>

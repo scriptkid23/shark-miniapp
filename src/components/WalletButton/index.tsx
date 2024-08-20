@@ -67,44 +67,12 @@ type Props = {
   className?: string;
 };
 
-export type TonCash = {
-  $$type: 'TonCash';
-  settleDuration: bigint;
-  sender: Address;
-};
 
-export function storeTonCash(src: TonCash) {
-  return (builder: any) => {
-    let b_0 = builder;
-    b_0.storeUint(680076828, 32);
-    b_0.storeUint(src.settleDuration, 64);
-    b_0.storeAddress(src.sender);
-  };
-}
 
 const WalletButton = ({ className }: Props) => {
   // const [tonConnectUI] = useTonConnectUI();
   // const disconnect = () => tonConnectUI.disconnect();
 
-  // const handleMakeTx = async () => {
-  //   const store: TonCash = {
-  //     $$type: 'TonCash',
-  //     settleDuration: BigInt(10),
-  //     sender: address('0QBFDKvzPUlxDhCIgUWZQVDxTBqtifKlRSYLQVpI1KDcshGJ'),
-  //   };
-  //   const transaction: SendTransactionRequest = {
-  //     validUntil: Math.floor(Date.now() / 1000) + 360,
-  //     messages: [
-  //       {
-  //         address: '0QBFDKvzPUlxDhCIgUWZQVDxTBqtifKlRSYLQVpI1KDcshGJ',
-  //         amount: '10000000',
-  //         payload: beginCell().store(storeTonCash(store)).endCell().toBoc().toString('base64'),
-  //       },
-  //     ],
-  //   };
-
-  //   tonConnectUI.sendTransaction(transaction);
-  // };
   return (
     <div className={className}>
       <ConnecWallet />

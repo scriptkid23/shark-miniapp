@@ -34,6 +34,7 @@
     "react-circular-progressbar": "^2.1.0",
     "react-dom": "^18.3.1",
     "react-gauge-component": "^1.2.21",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-insta-stories": "^2.7.0",
     "react-qrcode-logo": "^3.0.0",
     "react-remove-scroll-bar": "^2.3.6",

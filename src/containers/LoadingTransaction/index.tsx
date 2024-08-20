@@ -1,5 +1,7 @@
+import { checkingTotalTransaction } from '@/apis';
 import { useSharkStore } from '@/stores/shark_store';
 import { sleep } from '@/utils';
+import { useTonWallet } from '@tonconnect/ui-react';
 import { useEffect, useState } from 'react';
 import GaugeComponent from 'react-gauge-component';
 import { SubArc } from 'react-gauge-component/dist/lib/GaugeComponent/types/Arc';
@@ -91,22 +93,24 @@ const GaugeCustom = (props: Props) => {
 const LoadingTransaction = (props: Props) => {
   const navigate = useNavigate();
   const { setTransaction } = useSharkStore();
+  const wallet = useTonWallet();
 
-  
   useEffect(() => {
     const abortController = new AbortController();
-    const {promise,cancel}=sleep(5000)
+    const { promise, cancel } = sleep(5000);
     const checkTransactionAndNavigate = async () => {
       try {
-        // const { data } = await checkingTotalTransaction(abortController);
-        // if (abortController.signal.aborted) return;
-        // setTransaction(data.total, data.point);
-        // if (abortController.signal.aborted) return;
         await promise;
+        const { data } = await checkingTotalTransaction(wallet?.account?.address || '', abortController);
+        if (abortController.signal.aborted) return;
+        setTransaction(data.total, data.point);
+        if (abortController.signal.aborted) return;
+
         navigate('stories');
       } catch (error: any) {
         if (error?.name === 'AbortError') return;
         console.error('Error checking transaction:', error);
+        navigate('/');
       }
     };
 

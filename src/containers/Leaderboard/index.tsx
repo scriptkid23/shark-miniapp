@@ -23,7 +23,7 @@ const MOCK_LEADERBOARD = [
   {
     name: 'thangpham',
     balance: 1000,
-    avatar: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Son_Tung_M-TP_2_%282017%29.png',
+    avatar: SmileFaceIcon,
   },
   {
     name: 'minhphan',

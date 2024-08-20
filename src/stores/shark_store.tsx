@@ -1,16 +1,15 @@
-import { initInitData, initMiniApp } from '@telegram-apps/sdk';
 import axiosInstance from '@/axiosConfig';
 import { MissionIconType, MissionStatus } from '@/containers/MissionPage/MissionItem';
 import { UnderwarterLevel } from '@/containers/StoriesPage/Stories1/Stories_1';
+import { initInitData, initMiniApp } from '@telegram-apps/sdk';
 import { create } from 'zustand';
-import { sleep } from '@/utils';
-import { userMock } from './mockData';
 
 export type Missions = {
   type: string;
   name: string;
   missions: {
     id: number;
+    title: string;
     description: string;
     value: number;
     iconId: keyof typeof MissionIconType;
@@ -62,21 +61,33 @@ const preloadAnimation = () => {
     };
   }
 };
+const parseStatus = (isClaimed: boolean) => {
+  if (isClaimed) {
+    return MissionStatus.DONE;
+  }
+  return MissionStatus.ACTIVE;
+};
 
 const parseMissions = (data: any): Missions[] => {
   const { mission } = data;
   const result: Missions[] = [];
+
   for (const property in mission) {
+    const missions = mission[property]?.missions;
     result.push({
       type: property,
-      name: property,
-      missions: mission[property].map((mission: any) => ({
-        id: mission.id,
-        description: mission.description,
-        value: mission.value,
-        iconId: mission.iconId,
-        status: mission.status,
-      })),
+      name: mission[property].name,
+      missions:
+        missions && missions.length > 0
+          ? missions.map((item: any) => ({
+              id: item.id,
+              title: item.name,
+              description: item.description,
+              value: item.point || 0,
+              iconId: item.icon_id,
+              status: parseStatus(item.is_claimed),
+            }))
+          : [],
     });
   }
 
@@ -93,12 +104,7 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     }
     try {
       const { login, getMissions } = get();
-      await Promise.all([
-        login(),
-        //  getMissions(),
-        preloadAnimation(),
-        preloadBanner(),
-      ]);
+      await Promise.all([login(), getMissions(), preloadAnimation(), preloadBanner()]);
       set({ isInitFinished: true });
     } catch (error) {
       console.log(error);
@@ -106,24 +112,26 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   },
 
   login: async () => {
-    // const initData = initInitData();
-    // if (!initData?.user) {
-    //   throw new Error('initData is not defined');
-    // }
-    // const { user } = initData;
-    // const body = {
-    //   uid: user.id,
-    //   username: user.username || user.lastName + ' ' + user.firstName,
-    //   isPremium: !!user.isPremium,
-    // };
-    // const { data } = await axiosInstance.post('/user/login', body);
-    // set({ user: data });
-    set({ user: userMock });
+    const initData = initInitData();
+    if (!initData?.user) {
+      throw new Error('initData is not defined');
+    }
+    const { user } = initData;
+    const body = {
+      uid: user.id,
+      username: user.username || user.lastName + ' ' + user.firstName,
+      isPremium: !!user.isPremium,
+    };
+    const { data } = await axiosInstance.post('/user/login', body);
+    set({ user: data });
+    // set({ user: userMock });
   },
 
   getMissions: async () => {
     const { data } = await axiosInstance.get('/user/get-mission');
-    // parseMissions(data);
+    console.log(data);
+    const missions = parseMissions(data);
+    set({ missions });
   },
 
   getLeaderboard: async () => {

@@ -15,7 +15,6 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
-  console.log(useLaunchParams().startParam, 'thangpham123hello');
   const manifestUrl = useMemo(() => {
     return new URL('https://test-youtube.s3.amazonaws.com/manifest.json').toString();
   }, []);
