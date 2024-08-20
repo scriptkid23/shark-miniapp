@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 import { retrieveLaunchParams } from '@telegram-apps/sdk';
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: 'https://b28d-2405-4802-1c62-2ac0-44f-282c-a3fc-f7fb.ngrok-free.app/api',
+  baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
