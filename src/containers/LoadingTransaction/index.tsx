@@ -89,10 +89,24 @@ const GaugeCustom = (props: Props) => {
     </div>
   );
 };
+const data = {
+  user: {
+    id: '1049059523',
+    userName: 'victorpham1',
+    wallet: '{"0QAsU-KyL6g-vNgParIFfo2UffYEzAbLBNg-nnHM177AzzMf":32}',
+    codeInvite: '08e9cf8d50f2826291e6035c1f4874d16749290062abcebc9c7267c65cfb4a8d',
+    point: 164800,
+    isPremium: false,
+    invitedById: null,
+    createdAt: '2024-08-21T14:42:47.191Z',
+  },
+  point_tx: 3200,
+  totalTransaction: 32,
+};
 
 const LoadingTransaction = (props: Props) => {
   const navigate = useNavigate();
-  const { setTransaction } = useSharkStore();
+  const { setTransaction, setPoint } = useSharkStore();
   const wallet = useTonWallet();
 
   useEffect(() => {
@@ -101,12 +115,15 @@ const LoadingTransaction = (props: Props) => {
     const checkTransactionAndNavigate = async () => {
       try {
         await promise;
-        
-        // const { data } = await checkingTotalTransaction(wallet?.account?.address || '', abortController);
-        // if (abortController.signal.aborted) return;
-        // setTransaction(data.total, data.point);
-        // if (abortController.signal.aborted) return;
-        setTransaction(100, 100);
+
+        const { data } = await checkingTotalTransaction(wallet?.account?.address || '', abortController);
+        if (abortController.signal.aborted) return;
+        setTransaction(data?.data?.totalTransaction, data?.data?.point_tx);
+        if (abortController.signal.aborted) return;
+        console.log(data, 'thangphamdata');
+        if (data?.data?.user?.point) {
+          setPoint(data?.data?.user?.point);
+        }
         navigate('stories');
       } catch (error: any) {
         if (error?.name === 'AbortError') return;

@@ -33,9 +33,12 @@ const getLevel = (points: number) => {
   return 4;
 };
 
+const invite_link = import.meta.env.VITE_INVITE_LINK;
 const Stories_1: Renderer = ({ story, action }) => {
   const { user } = useSharkStore();
   const { transaction } = user || {};
+
+  const inviteLink = `${invite_link}?startapp=${user?.codeInvite}`;
 
   const level = getLevel(transaction?.total || 0);
 
@@ -55,11 +58,10 @@ const Stories_1: Renderer = ({ story, action }) => {
         <p className="text-[18px]">Transactions</p>
         <div className="mt-[16px] bg-gradient-to-b from-[rgba(17,41,64,0.60)] via-[rgba(0,17,33,0.60)] to-[rgba(0,17,33,0.60)] m-auto w-fit border-[#10435C] border-[0.43px] rounded-[10px]">
           <QRCode
-            ecLevel="Q"
+            ecLevel="L"
             quietZone={8}
             size={112}
-            qrStyle="fluid"
-            value="https://www.google.com/"
+            value={inviteLink}
             bgColor="transparent"
             fgColor="white"
             eyeRadius={8}

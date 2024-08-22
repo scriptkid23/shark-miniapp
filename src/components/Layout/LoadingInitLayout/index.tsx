@@ -1,7 +1,7 @@
+import SharkLogo from '@/assets/icons/shark_icon.svg';
+import { useSharkStore } from '@/stores/shark_store';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useSharkStore } from '@/stores/shark_store';
-
 type Props = {};
 
 const LoadingInitLayout = (props: Props) => {
@@ -10,8 +10,13 @@ const LoadingInitLayout = (props: Props) => {
   useEffect(() => {
     initStore();
   }, []);
-  
 
-  return isInitFinished ? <Outlet /> : <div>Loading</div>;
+  return isInitFinished ? (
+    <Outlet />
+  ) : (
+    <div className="h-screen w-full flex justify-center items-center">
+      <img src={SharkLogo} />
+    </div>
+  );
 };
 export default LoadingInitLayout;

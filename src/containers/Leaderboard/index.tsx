@@ -11,9 +11,9 @@ import axiosInstance from '@/axiosConfig';
 type Props = {};
 
 const getMedal = (index: number) => {
-  if (index === 0) return Medal1;
-  if (index === 1) return Medal2;
-  if (index === 2) return Medal3;
+  if (index === 0) return 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/1st%20Place%20Medal.webp';
+  if (index === 1) return 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/2nd%20Place%20Medal.webp';
+  if (index === 2) return 'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/3rd%20Place%20Medal.webp';
 };
 
 const MOCK_LEADERBOARD = [
@@ -69,6 +69,7 @@ const LeaderboardPage = (props: Props) => {
     };
     fetchData();
   }, []);
+
   console.log(leaderboard, 'thangpham123123');
   return (
     <div className="w-full h-full m-auto py-9 px-4 overflow-y-auto">
@@ -80,7 +81,7 @@ const LeaderboardPage = (props: Props) => {
           </div>
           <div className="ml-5">
             <p className="text-sm font-medium">{user?.userName}</p>
-            <p className="text-base font-semibold">{numberWithCommas(1000)} BAITS</p>
+            <p className="text-base font-semibold">{numberWithCommas(user?.point || 0)} BAITS</p>
           </div>
         </div>
         <div>
@@ -88,7 +89,7 @@ const LeaderboardPage = (props: Props) => {
         </div>
       </div>
       <div className="mt-9 h-auto overflow-y-auto">
-        <h3 className="text-lg font-semibold mb-6">{numberWithCommas(leaderboard.length || 0)} holders</h3>
+        <p className="text-lg font-semibold mb-6">{numberWithCommas(leaderboard.length || 0)} holders</p>
         <div className="overflow-y-auto">
           {leaderboard.map((item, index) => {
             const isHaveAvatar = !!item.avatar;
@@ -110,8 +111,8 @@ const LeaderboardPage = (props: Props) => {
                 </div>
                 <div>
                   {!!getMedal(index) ? (
-                    <div className="w-[46px] h-[46px]">
-                      <img className="w-full h-full object-cover" src={getMedal(index)} alt="medal" />
+                    <div className="w-[30px] h-[30px] ">
+                      <img className="object-fill" src={getMedal(index)} alt="medal" />
                     </div>
                   ) : (
                     <p className="text-sm">{'#' + (index + 1)}</p>

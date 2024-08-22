@@ -5,7 +5,7 @@ import Twitter from '@/assets/icons/mission/twitter.png';
 import FriendIcon from '@/assets/icons/mission/friend.png';
 import { checkMission } from '@/apis';
 import { address, Address, beginCell } from '@ton/core';
-import { SendTransactionRequest, useTonConnectUI } from '@tonconnect/ui-react';
+import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { numberWithCommas } from '@/utils';
 
 export enum MissionStatus {
@@ -51,6 +51,7 @@ const MissionItem = (props: Props) => {
   const { mission } = props;
   const [status, setStatus] = useState<MissionStatus>(mission.status);
   const [tonConnectUI] = useTonConnectUI();
+  const tonAddress = useTonAddress();
   const statusText = {
     [MissionStatus.DONE]: 'Done',
     [MissionStatus.PENDING]: 'Pending',
@@ -77,6 +78,7 @@ const MissionItem = (props: Props) => {
       };
 
       const tx = await tonConnectUI.sendTransaction(transaction);
+      
       return tx.boc;
     } catch (error) {
       console.log(error);
@@ -85,7 +87,14 @@ const MissionItem = (props: Props) => {
   };
 
   const handleInviteMission = async (mission: Mission) => {
-    window.open(mission.description, '_blank');
+    const open = window.open(mission.description, '_blank');
+    console.log('open', open);
+    if (open) {
+      
+      open.addEventListener('load', () => {
+        console.log('open');
+      });
+    }
   };
 
   const getMissionFunction = async (mission: Mission) => {
@@ -113,7 +122,8 @@ const MissionItem = (props: Props) => {
       if (boc) {
         tx = boc;
       }
-      await checkMission(mission.id, tx);
+      console.log('txbox', tx);
+      await checkMission(mission.id, tx, tonAddress);
       setStatus(MissionStatus.DONE);
     } catch (error) {
       setStatus(MissionStatus.ACTIVE);

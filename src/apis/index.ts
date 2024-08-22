@@ -5,18 +5,27 @@ export const updateWalletUser = (wallet: string) => {
 };
 
 export const checkingTotalTransaction = (wallet: string, abortController: AbortController) => {
-  return axiosInstance.post('/user/get-user-init-point?', {
-    body: {
-      wallet,
+  return axiosInstance.post(
+    '/user/get-user-init-point',
+    {
+      address: wallet,
     },
-    signal: abortController.signal,
-  });
+    { signal: abortController.signal }
+  );
 };
 
 export const fetchMission = () => {
   return axiosInstance.get('/mission/get-mission');
 };
 
-export const checkMission = (missionId: number, boc?: string) => {
-  return axiosInstance.post(`/user/claim-reward`, { mid: missionId, boc });
+export const checkMission = (missionId: number, boc?: string, address?: string) => {
+  return axiosInstance.post(`/user/claim-reward`, { mid: missionId, boc, address });
+};
+
+export const submitReferral = (referral: string) => {
+  return axiosInstance.post('/user/submit-referral-code', { referralCode: referral });
+};
+
+export const fetchFriends = () => {
+  return axiosInstance.get('/user/get-list-invite');
 };

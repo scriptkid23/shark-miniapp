@@ -58,7 +58,7 @@ function App() {
         appearance={miniApp.isDark ? 'dark' : 'light'}
         platform={['macos', 'ios'].includes(lp.platform) ? 'ios' : 'base'}
       >
-        <Theme appearance="dark" className="font-inter">
+        <Theme  appearance="dark" className="font-inter">
           <Router location={location} navigator={reactNavigator}>
             <Routes>
               <Route element={<LoadingInitLayout />}>

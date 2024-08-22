@@ -6,23 +6,26 @@ type Props = {};
 
 const FAKE_REWARDS = [
   {
-    icon_id: 1,
-    title: 'Ton Fish',
-    value: '1234',
+    iconId: 1,
+    name: 'Ton Fish',
+    point: 1234,
+    description: 'Claim your reward',
   },
   {
-    icon_id: 2,
-    title: 'Premium Status',
-    value: '1234',
+    iconId: 2,
+    name: 'Premium Status',
+    point: 1234,
+    description: 'Claim your reward',
   },
   {
-    icon_id: 2,
-    title: 'Premium Status',
-    value: '1234',
+    iconId: 2,
+    name: 'Premium Status',
+    point: 1234,
+    description: 'Claim your reward',
   },
 ];
 
-const RewardContainer = (props: Props) => {
+const RewardContainer = () => {
   const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
@@ -37,7 +40,7 @@ const RewardContainer = (props: Props) => {
   
   return (
     <div className="relative m-auto mt-6">
-      <h3 className="text-lg font-semibold">Your reward</h3>
+      <h3 className="text-lg font-semibold mb-2">Your reward</h3>
       <div>
         {items.map((item, index) => (
           <RewardItem key={index} {...item.mission} />

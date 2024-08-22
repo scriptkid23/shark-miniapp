@@ -48,7 +48,7 @@ const ConnecWallet = () => {
 
   if (!isRestored) {
     return (
-      <div className="w-full h-[37px] rounded-lg bg-[#0E2454] flex items-center justify-center gap-2">
+      <div className="w-full h-[44px] rounded-lg bg-[#0E2454] flex items-center justify-center gap-2">
         <p className="text-[#2B6DFD] text-[14px] font-medium">Please wait...</p>
       </div>
     );
@@ -57,7 +57,7 @@ const ConnecWallet = () => {
   return !!wallet ? (
     <WalletConnected />
   ) : (
-    <button className="w-full h-[37px] rounded-lg bg-[#0E2454] flex items-center justify-center gap-2" onClick={open}>
+    <button className="w-full h-[44px] rounded-lg bg-[#0E2454] flex items-center justify-center gap-2" onClick={open}>
       <p className="text-[#2B6DFD] text-[14px] font-medium">{isRestored ? 'Connect Wallet' : 'Trying to reconnect'} </p>
     </button>
   );

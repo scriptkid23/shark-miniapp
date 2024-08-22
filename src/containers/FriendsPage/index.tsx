@@ -1,5 +1,7 @@
 import HookImage from '@/assets/images/hook-color.png';
 import InviteGroup from './InviteGroup';
+import { useEffect, useState } from 'react';
+import { fetchFriends } from '@/apis';
 type Props = {};
 
 const MockFriends = [
@@ -45,6 +47,16 @@ const MockFriends = [
   },
 ];
 const FriendsPage = (props: Props) => {
+  const [friends, setFriends] = useState<any>([]);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const { data } = await fetchFriends();
+        setFriends(data);
+      } catch (error) {}
+    };
+    fetch();
+  }, []);
   return (
     <div className="relative px-4 pt-8 overflow-y-auto h-full">
       <h1 className="text-center text-2xl font-medium">
@@ -57,13 +69,16 @@ const FriendsPage = (props: Props) => {
       </div>
       <div>
         <p>5 friends</p>
-        <div className='mt-6'>
+        <div className="mt-6">
           {MockFriends.map((friend, index) => (
-            <div key={index} className={`flex items-center justify-between ${index !== MockFriends.length - 1 ? 'mb-6' : ''}`}>
+            <div
+              key={index}
+              className={`flex items-center justify-between ${index !== MockFriends.length - 1 ? 'mb-6' : ''}`}
+            >
               <div>
                 <img className="w-10 h-10 rounded-full" src={friend.image} alt={friend.name} />
               </div>
-              <div className='flex-1 px-4'>
+              <div className="flex-1 px-4">
                 <p>{friend.name}</p>
               </div>
               <div>

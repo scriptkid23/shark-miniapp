@@ -43,7 +43,7 @@ const CheckingTotalTxButton = () => {
     <button
       disabled={!wallet}
       onClick={handleTx}
-      className="w-full py-2 px-4 bg-[linear-gradient(204deg,_#2B6DFD_13.83%,_#091633_109.1%)] rounded-lg mt-4 disabled:bg-none disabled:bg-[#282829] disabled:text-[#666666] disabled:cursor-not-allowed"
+      className="w-full py-3 px-4 bg-[linear-gradient(204deg,_#2B6DFD_13.83%,_#091633_109.1%)] rounded-lg mt-4 disabled:bg-none disabled:bg-[#282829] disabled:text-[#666666] disabled:cursor-not-allowed"
     >
       <span className="text-sm">Checking Total on-chain transaction</span>
     </button>
@@ -87,7 +87,7 @@ const HomePage = () => {
         <img className="w-full object-contain" src={HomeBannerImg} alt="banner"></img>
       </div>
 
-      <div className="min-w-0 mx-auto pt-[20vh] transform px-4 h-full ">
+      <div className="min-w-0 mx-auto pt-[28vh] transform px-4 h-full ">
         <HeadBanner />
         <RewardContainer />
       </div>
