@@ -135,7 +135,9 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     if (!initData?.user) {
       throw new Error("initData is not defined");
     }
-    const { user } = initData;
+    const { user, startParam } = initData;
+
+    console.log(startParam);
     const body = {
       uid: user.id,
       username: user.username || user.lastName + " " + user.firstName,
@@ -166,13 +168,17 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
 
   referCode: async () => {
     try {
-      const lp = retrieveLaunchParams();
-      console.log(lp.startParam, "thangpham");
+      const initData = initInitData();
+      if (!initData?.user) {
+        throw new Error("initData is not defined");
+      }
 
-      const startParam = lp.startParam;
+      const { startParam } = initData;
+
       if (!startParam) {
         return;
       }
+
       const { data } = await submitReferral(startParam);
       console.log(data);
     } catch (error) {

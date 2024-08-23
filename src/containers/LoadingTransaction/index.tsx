@@ -42,7 +42,6 @@ const GaugeCustom = (props: Props) => {
           };
         }
       });
-    console.log(result);
     return result;
   };
 
