@@ -22,10 +22,15 @@ export const numberWithCommas = (x: number) => {
 };
 
 export function getInitials(name: string) {
-  return name
-    .split(" ") // Tách chuỗi thành mảng các từ
-    .map((word) => word.charAt(0).toUpperCase()) // Lấy chữ cái đầu và in hoa
-    .join(""); // Nối lại thành chuỗi
+  try {
+    return name
+      .split(" ") // Tách chuỗi thành mảng các từ
+      .map((word) => word.charAt(0).toUpperCase()) // Lấy chữ cái đầu và in hoa
+      .join(""); // Nối lại thành chuỗi
+  } catch (error) {
+    return name
+  }
+
 }
 
 export function getRandomColor(playerId: number): any {

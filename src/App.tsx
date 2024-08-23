@@ -56,7 +56,7 @@ function App() {
 
   return (
     <NextUIProvider>
-      <div className="relative m-auto">
+      <div className="relative m-auto ">
         <AppRoot
           appearance={miniApp.isDark ? "dark" : "light"}
           platform={["macos", "ios"].includes(lp.platform) ? "ios" : "base"}

@@ -10,7 +10,7 @@ const MissionPage = (props: Props) => {
 
   if (!missions) return null;
   return (
-    <div className="w-full h-full px-4 pt-9 overflow-y-auto">
+    <div className="w-full h-full px-4 pt-9 overflow-y-auto hidden-scrollbar">
       <h1 className="text-center text-2xl font-medium mb-6">Missions</h1>
 
       <div>

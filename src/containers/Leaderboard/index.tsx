@@ -33,7 +33,7 @@ const LeaderboardPage = (props: Props) => {
 
   console.log(leaderboard, "thangpham123123");
   return (
-    <div className="w-full h-full m-auto py-9 px-4 overflow-y-auto">
+    <div className="w-full h-full m-auto py-9 px-4 overflow-y-auto hidden-scrollbar">
       <h1 className="text-white text-2xl font-medium text-center">Rank</h1>
       <div className="flex items-center justify-between bg-[#0E2454] p-4 rounded-[18px] mt-6">
         <div className="flex items-center justify-center">

@@ -7,33 +7,43 @@
   }
 }
 .radix-themes {
-  --default-font-family: 'Inter';
+  --default-font-family: "Inter";
+}
+
+.hidden-scrollbar {
+  overflow: auto; /* Hoặc overflow: scroll; nếu muốn luôn hiển thị thanh cuộn */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 @font-face {
-  font-family: 'Rubik';
-  src: url('./assets/fonts/Rubik-Regular.ttf');
+  font-family: "Rubik";
+  src: url("./assets/fonts/Rubik-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('./assets/fonts/Inter_18pt-Regular.ttf');
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter_18pt-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'SyneTactile';
-  src: url('./assets/fonts/SyneTactile-Regular.ttf');
+  font-family: "SyneTactile";
+  src: url("./assets/fonts/SyneTactile-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'ChakraPetch';
-  src: url('./assets/fonts/ChakraPetch-Regular.ttf');
+  font-family: "ChakraPetch";
+  src: url("./assets/fonts/ChakraPetch-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
