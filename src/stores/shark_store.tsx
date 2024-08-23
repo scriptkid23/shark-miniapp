@@ -1,16 +1,9 @@
-import { submitReferral } from "@/apis";
-import axiosInstance from "@/axiosConfig";
-import {
-  MissionIconType,
-  MissionStatus,
-} from "@/containers/MissionPage/MissionItem";
-import { UnderwarterLevel } from "@/containers/StoriesPage/Stories1/Stories_1";
-import {
-  initInitData,
-  initMiniApp,
-  retrieveLaunchParams,
-} from "@telegram-apps/sdk";
-import { create } from "zustand";
+import { submitReferral } from '@/apis';
+import axiosInstance from '@/axiosConfig';
+import { MissionIconType, MissionStatus } from '@/containers/MissionPage/MissionItem';
+import { UnderwarterLevel } from '@/containers/StoriesPage/Stories1/Stories_1';
+import { initInitData, initMiniApp, retrieveLaunchParams } from '@telegram-apps/sdk';
+import { create } from 'zustand';
 
 export type Missions = {
   type: string;
@@ -50,13 +43,14 @@ interface SharkState {
   getMissions: () => Promise<void>;
   setTransaction: (total: number, point: number) => void;
   setPoint: (point: number) => void;
+  setWallet: (wallet: string) => void;
 }
 
 const preloadBanner = () => {
   const img = new Image();
-  img.src = "/assets/images/banner.png";
+  img.src = '/assets/images/banner.png';
   img.onload = () => {
-    console.log("loaded");
+    console.log('loaded');
   };
 };
 
@@ -66,7 +60,7 @@ const preloadAnimation = () => {
     const img = new Image();
     img.src = obj[property].imagePath;
     img.onload = () => {
-      console.log("loaded");
+      console.log('loaded');
     };
   }
 };
@@ -127,29 +121,29 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     console.log(initData);
 
     if (!initData?.user) {
-      throw new Error("initData is not defined");
+      throw new Error('initData is not defined');
     }
     const { user, startParam } = initData;
 
     console.log(startParam);
     const body = {
       uid: user.id,
-      username: user.username || user.lastName + " " + user.firstName,
+      username: user.username || user.lastName + ' ' + user.firstName,
       isPremium: !!user.isPremium,
       referralCode: startParam,
     };
-    const { data } = await axiosInstance.post("/user/login", body);
+    const { data } = await axiosInstance.post('/user/login', body);
     set({ user: data.user });
   },
 
   getMissions: async () => {
-    const { data } = await axiosInstance.get("/user/get-mission");
+    const { data } = await axiosInstance.get('/user/get-mission');
     const missions = parseMissions(data);
     set({ missions });
   },
 
   getLeaderboard: async () => {
-    const { data } = await axiosInstance.get("/user/get-leaderboard");
+    const { data } = await axiosInstance.get('/user/get-leaderboard');
     console.log(data);
   },
 
@@ -167,5 +161,12 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
       return;
     }
     set({ user: { ...user, point } });
+  },
+  setWallet: (wallet: string) => {
+    const { user } = get();
+    if (!user) {
+      return;
+    }
+    set({ user: { ...user, wallet } });
   },
 }));

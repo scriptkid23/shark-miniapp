@@ -105,7 +105,7 @@ const data = {
 
 const LoadingTransaction = (props: Props) => {
   const navigate = useNavigate();
-  const { setTransaction, setPoint } = useSharkStore();
+  const { setTransaction, setPoint, setWallet } = useSharkStore();
   const wallet = useTonWallet();
 
   useEffect(() => {
@@ -119,9 +119,11 @@ const LoadingTransaction = (props: Props) => {
         if (abortController.signal.aborted) return;
         setTransaction(data?.data?.totalTransaction, data?.data?.point_tx);
         if (abortController.signal.aborted) return;
-        console.log(data, 'thangphamdata');
         if (data?.data?.user?.point) {
           setPoint(data?.data?.user?.point);
+        }
+        if (data?.data?.user?.wallet) {
+          setWallet(data?.data?.user?.wallet);
         }
         navigate('stories');
       } catch (error: any) {

@@ -31,7 +31,6 @@ const FriendsPage = (props: Props) => {
       try {
         const { data } = await fetchFriends();
         if (data.data) {
-          console.log(data.data);
           setFriends(data.data);
         }
       } catch (error) {}
@@ -50,7 +49,7 @@ const FriendsPage = (props: Props) => {
         <img src={HookImage} alt="hook" />
       </div>
       <div className="flex flex-col h-full">
-        <p>{friends.length} friends</p>
+        {friends.length > 0 && <p>{friends.length} friends</p>}
         <div className="mt-6 flex- h-full">
           {friends.map((friend, index) => (
             <div

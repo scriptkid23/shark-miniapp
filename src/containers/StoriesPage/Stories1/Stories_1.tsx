@@ -1,5 +1,6 @@
 import { useSharkStore } from '@/stores/shark_store';
 import { numberWithCommas } from '@/utils';
+import { useTonWallet } from '@tonconnect/ui-react';
 import { WithSeeMore } from 'react-insta-stories';
 import { Renderer } from 'react-insta-stories/dist/interfaces';
 import { QRCode } from 'react-qrcode-logo';
@@ -36,11 +37,14 @@ const getLevel = (points: number) => {
 const invite_link = import.meta.env.VITE_INVITE_LINK;
 const Stories_1: Renderer = ({ story, action }) => {
   const { user } = useSharkStore();
-  const { transaction } = user || {};
+  const tonWallet = useTonWallet();
+  const rawWallet = tonWallet?.account?.address;
+  const objUserWalletParsed = JSON.parse(user?.wallet || '{}');
+  const transaction = objUserWalletParsed[rawWallet || ''];
 
   const inviteLink = `${invite_link}?startapp=${user?.codeInvite}`;
 
-  const level = getLevel(transaction?.total || 0);
+  const level = getLevel(transaction?.totalTransaction || 0);
 
   const UnderwarterLevelData = UnderwarterLevel[level];
 
@@ -53,7 +57,7 @@ const Stories_1: Renderer = ({ story, action }) => {
           <img className="w-full h-full" src={UnderwarterLevelData.imagePath} alt="animal" />
         </div>
         <h3 className="text-[64px] font-medium font-rubik inline-block text-transparent bg-clip-text bg-[linear-gradient(186deg,_#2B6DFD_20.1%,_#091633_86.53%)] leading-tight">
-          {numberWithCommas(transaction?.total || 0)}
+          {numberWithCommas(transaction?.totalTransaction || 0)}
         </h3>
         <p className="text-[18px]">Transactions</p>
         <div className="mt-[16px] bg-gradient-to-b from-[rgba(17,41,64,0.60)] via-[rgba(0,17,33,0.60)] to-[rgba(0,17,33,0.60)] m-auto w-fit border-[#10435C] border-[0.43px] rounded-[10px]">

@@ -21,12 +21,13 @@ const getMedal = (index: number) => {
 const LeaderboardPage = (props: Props) => {
   const { user } = useSharkStore();
   const data = useInitDataRaw();
-  const [leaderboard, setLeaderboard] = useState<any[]>([]);
+ 
+  const [leaderboard, setLeaderboard] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await axiosInstance.get("/leader-board");
-      setLeaderboard(data.data.leaderBoard);
+      setLeaderboard(data.data);
     };
     fetchData();
   }, []);
@@ -47,7 +48,7 @@ const LeaderboardPage = (props: Props) => {
           <div className="ml-5">
             <p className="text-sm font-medium">{user?.userName}</p>
             <p className="text-base font-semibold">
-              {numberWithCommas(user?.point || 0)} BAITS
+              {numberWithCommas(leaderboard?.score || 0)} BAITS
             </p>
           </div>
         </div>
@@ -57,12 +58,13 @@ const LeaderboardPage = (props: Props) => {
       </div>
       <div className="mt-9 h-auto overflow-y-auto">
         <p className="text-lg font-semibold mb-6">
-          {numberWithCommas(leaderboard.length || 0)} holders
+          {numberWithCommas(leaderboard?.leaderBoard?.length || 0)} holders
         </p>
         <div className="overflow-y-auto">
-          {leaderboard.map((item, index) => {
-            return (
-              <div
+          {leaderboard?.leaderBoard &&
+            leaderboard?.leaderBoard.map((item: any, index: number) => {
+              return (
+                <div
                 key={index}
                 className={`flex items-center justify-between rounded-[18px] gap-3 ${
                   index !== 0 ? "mt-7" : ""

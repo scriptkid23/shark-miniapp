@@ -53,9 +53,14 @@ const CheckingTotalTxButton = () => {
 const HeadBanner = () => {
   const { user } = useSharkStore();
 
+  const tonWallet = useTonWallet();
+  const rawWallet = tonWallet?.account?.address;
+
   const navigate = useNavigate();
+  const objUserWalletParsed = JSON.parse(user?.wallet || '{}');
   const handleNavigate = (path: string) => navigate(path);
-  const isCheckedTx = user?.transaction?.point && user?.transaction?.point > -1;
+
+  const isCheckedTx = !!rawWallet && !!objUserWalletParsed[rawWallet];
   return (
     <div className="relative w-full m-auto">
       <div className=" w-full p-4 bg-[#111] rounded-lg m-auto">
@@ -74,7 +79,7 @@ const HeadBanner = () => {
           </div>
         </div>
         <WalletButton className="mt-6" />
-        <CheckingTotalTxButton />
+        {!isCheckedTx && <CheckingTotalTxButton />}
       </div>
     </div>
   );
