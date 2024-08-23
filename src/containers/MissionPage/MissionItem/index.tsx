@@ -1,17 +1,22 @@
-import HookIcon from '@/assets/icons/mission/hook.png';
-import { useState } from 'react';
-import TeleIcon from '@/assets/icons/mission/tele.png';
-import Twitter from '@/assets/icons/mission/twitter.png';
-import FriendIcon from '@/assets/icons/mission/friend.png';
-import { checkMission } from '@/apis';
-import { address, Address, beginCell } from '@ton/core';
-import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import { numberWithCommas } from '@/utils';
+import HookIcon from "@/assets/icons/mission/hook.png";
+import { useState } from "react";
+import TeleIcon from "@/assets/icons/mission/tele.png";
+import Twitter from "@/assets/icons/mission/twitter.png";
+import FriendIcon from "@/assets/icons/mission/friend.png";
+import { checkMission } from "@/apis";
+import { address, Address, beginCell } from "@ton/core";
+import {
+  SendTransactionRequest,
+  useTonAddress,
+  useTonConnectUI,
+} from "@tonconnect/ui-react";
+import { numberWithCommas } from "@/utils";
+import useConnectWalletNotificationStore from "@/stores/useConnectWalletNotificationStore";
 
 export enum MissionStatus {
-  DONE = 'done',
-  PENDING = 'pending',
-  ACTIVE = 'active',
+  DONE = "done",
+  PENDING = "pending",
+  ACTIVE = "active",
 }
 
 export const MissionIconType = {
@@ -34,7 +39,7 @@ type Props = {
   mission: Mission;
 };
 export type TonCash = {
-  $$type: 'TonCash';
+  $$type: "TonCash";
   settleDuration: bigint;
   sender: Address;
 };
@@ -48,21 +53,22 @@ export function storeTonCash(src: TonCash) {
   };
 }
 const MissionItem = (props: Props) => {
+  const { openModal } = useConnectWalletNotificationStore();
   const { mission } = props;
   const [status, setStatus] = useState<MissionStatus>(mission.status);
   const [tonConnectUI] = useTonConnectUI();
   const tonAddress = useTonAddress();
   const statusText = {
-    [MissionStatus.DONE]: 'Done',
-    [MissionStatus.PENDING]: 'Pending',
-    [MissionStatus.ACTIVE]: 'Active',
+    [MissionStatus.DONE]: "Done",
+    [MissionStatus.PENDING]: "Pending",
+    [MissionStatus.ACTIVE]: "Active",
   };
 
   const handleMakeTx = async (amount: string) => {
     try {
       const walletAddress = import.meta.env.VITE_ADDRESS;
       const store: TonCash = {
-        $$type: 'TonCash',
+        $$type: "TonCash",
         settleDuration: BigInt(10),
         sender: address(walletAddress),
       };
@@ -72,13 +78,17 @@ const MissionItem = (props: Props) => {
           {
             address: walletAddress,
             amount: amount,
-            payload: beginCell().store(storeTonCash(store)).endCell().toBoc().toString('base64'),
+            payload: beginCell()
+              .store(storeTonCash(store))
+              .endCell()
+              .toBoc()
+              .toString("base64"),
           },
         ],
       };
 
       const tx = await tonConnectUI.sendTransaction(transaction);
-      
+
       return tx.boc;
     } catch (error) {
       console.log(error);
@@ -87,12 +97,11 @@ const MissionItem = (props: Props) => {
   };
 
   const handleInviteMission = async (mission: Mission) => {
-    const open = window.open(mission.description, '_blank');
-    console.log('open', open);
+    const open = window.open(mission.description, "_blank");
+    console.log("open", open);
     if (open) {
-      
-      open.addEventListener('load', () => {
-        console.log('open');
+      open.addEventListener("load", () => {
+        console.log("open");
       });
     }
   };
@@ -102,7 +111,11 @@ const MissionItem = (props: Props) => {
     const realSharkId = 5;
     const missionId = mission.id;
     const tonDecimals = 9;
-    let amount = '';
+    let amount = "";
+
+    if ((makeTxOnTonId || realSharkId) && !tonAddress) {
+      openModal();
+    }
     if (missionId === makeTxOnTonId) {
       amount = (0.1 * 10 ** tonDecimals).toString();
       return handleMakeTx(amount);
@@ -115,14 +128,15 @@ const MissionItem = (props: Props) => {
   };
 
   const handleMission = async (mission: Mission) => {
+    console.log(mission);
     try {
       setStatus(MissionStatus.PENDING);
-      let tx = '';
+      let tx = "";
       const boc = await getMissionFunction(mission);
       if (boc) {
         tx = boc;
       }
-      console.log('txbox', tx);
+      console.log("txbox", tx);
       await checkMission(mission.id, tx, tonAddress);
       setStatus(MissionStatus.DONE);
     } catch (error) {
@@ -130,17 +144,24 @@ const MissionItem = (props: Props) => {
     }
   };
 
-  const isDisabled = status === MissionStatus.DONE || status === MissionStatus.PENDING;
+  const isDisabled =
+    status === MissionStatus.DONE || status === MissionStatus.PENDING;
 
   return (
     <div className="bg-[#282829] p-2 rounded-xl">
       <div className="flex items-center justify-between">
         <div className="rounded-full w-[44px] h-[44px] flex items-center justify-center">
-          <img className="object-cover" src={MissionIconType[mission.iconId]} alt="" />
+          <img
+            className="object-cover"
+            src={MissionIconType[mission.iconId]}
+            alt=""
+          />
         </div>
         <div className="flex-1 ml-[15px]">
           <p className="text-sm font-semibold mb-0.5">{mission.title}</p>
-          <p className="text-xs font-normal">+{numberWithCommas(mission.value)} BAITS</p>
+          <p className="text-xs font-normal">
+            +{numberWithCommas(mission.value)} BAITS
+          </p>
         </div>
         <div>
           <button
