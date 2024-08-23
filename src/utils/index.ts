@@ -20,3 +20,26 @@ export const stripVal = (val: string, start = 6, end = 4) => {
 export const numberWithCommas = (x: number) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+export function getInitials(name: string) {
+  return name
+    .split(" ") // Tách chuỗi thành mảng các từ
+    .map((word) => word.charAt(0).toUpperCase()) // Lấy chữ cái đầu và in hoa
+    .join(""); // Nối lại thành chuỗi
+}
+
+export function getRandomColor(playerId: number): any {
+  const colors = [
+    "secondary",
+    "default",
+    "primary",
+    "success",
+    "warning",
+    "danger",
+  ];
+
+  // Hash playerId to create a consistent index
+  const index = playerId % colors.length;
+
+  return colors[index];
+}
