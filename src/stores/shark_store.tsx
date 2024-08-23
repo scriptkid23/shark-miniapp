@@ -48,7 +48,6 @@ interface SharkState {
   initStore: () => void;
   login: () => Promise<void>;
   getMissions: () => Promise<void>;
-  referCode: () => Promise<void>;
   setTransaction: (total: number, point: number) => void;
   setPoint: (point: number) => void;
 }
@@ -113,14 +112,9 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
       return;
     }
     try {
-      const { login, getMissions, referCode } = get();
+      const { login, getMissions } = get();
       await login();
-      await Promise.all([
-        getMissions(),
-        referCode(),
-        preloadAnimation(),
-        preloadBanner(),
-      ]);
+      await Promise.all([getMissions(), preloadAnimation(), preloadBanner()]);
       set({ isInitFinished: true });
     } catch (error) {
       console.log(error);
@@ -142,6 +136,7 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
       uid: user.id,
       username: user.username || user.lastName + " " + user.firstName,
       isPremium: !!user.isPremium,
+      referralCode: startParam,
     };
     const { data } = await axiosInstance.post("/user/login", body);
     set({ user: data.user });
@@ -166,25 +161,6 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     set({ user: { ...user, transaction: { total, point } } });
   },
 
-  referCode: async () => {
-    try {
-      const initData = initInitData();
-      if (!initData?.user) {
-        throw new Error("initData is not defined");
-      }
-
-      const { startParam } = initData;
-
-      if (!startParam) {
-        return;
-      }
-
-      const { data } = await submitReferral(startParam);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  },
   setPoint: (point: number) => {
     const { user } = get();
     if (!user) {
