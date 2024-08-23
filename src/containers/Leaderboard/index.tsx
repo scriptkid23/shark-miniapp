@@ -32,7 +32,6 @@ const LeaderboardPage = (props: Props) => {
     fetchData();
   }, []);
 
-  console.log(leaderboard, "thangpham123123");
   return (
     <div className="w-full h-full m-auto py-9 px-4 overflow-y-auto hidden-scrollbar">
       <h1 className="text-white text-2xl font-medium text-center">Rank</h1>
