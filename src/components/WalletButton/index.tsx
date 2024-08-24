@@ -25,7 +25,7 @@ const WalletConnected = () => {
   const isCheckedTotalTx = user?.transaction?.total && user?.transaction?.total > -1;
   return (
     <div
-      className={`flex items-center justify-between py-2 px-4 bg-[${
+      className={`flex items-center justify-betwee2 h-[44px] px-4 bg-[${
         isCheckedTotalTx ? '#0E2454' : '#282829'
       }] rounded-lg`}
       onClick={disconnect}
