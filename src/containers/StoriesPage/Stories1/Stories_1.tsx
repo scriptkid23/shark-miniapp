@@ -4,16 +4,18 @@ import { useTonWallet } from '@tonconnect/ui-react';
 import { WithSeeMore } from 'react-insta-stories';
 import { Renderer } from 'react-insta-stories/dist/interfaces';
 import { QRCode } from 'react-qrcode-logo';
+import Fish from '@/assets/images/underwarter/fish.gif';
+import Whale from '@/assets/images/underwarter/whale.gif';
+import Squid from '@/assets/images/underwarter/squid.gif';
+
 export const UnderwarterLevel: Record<number, { name: string; imagePath: string }> = {
   1: {
     name: 'Fish',
-    imagePath:
-      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Fish.webp',
+    imagePath: Fish,
   },
   2: {
     name: 'Squid',
-    imagePath:
-      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Squid.webp',
+    imagePath: Squid,
   },
   3: {
     name: 'Shark',
@@ -22,8 +24,7 @@ export const UnderwarterLevel: Record<number, { name: string; imagePath: string 
   },
   4: {
     name: 'Whale',
-    imagePath:
-      'https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Spouting%20Whale.webp',
+    imagePath: Whale,
   },
 };
 
