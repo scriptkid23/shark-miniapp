@@ -1,6 +1,10 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "url": "https://shark-miniapp.vercel.app",
+  "short_name": "Shark Miniapp",
+  "name": "Shark Miniapp",
+  "iconUrl": "https://shark-miniapp.vercel.app/logo192.png",
+  "termsOfUseUrl": "http://test-youtube.s3-website-us-east-1.amazonaws.com/terms",
+  "privacyPolicyUrl": "http://test-youtube.s3-website-us-east-1.amazonaws.com/privacy",
   "icons": [
     {
       "src": "favicon.ico",
