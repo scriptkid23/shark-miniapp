@@ -6,16 +6,19 @@ import { useInitDataRaw } from "@telegram-apps/sdk-react";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/axiosConfig";
 import { Avatar } from "@nextui-org/react";
+import Medal1 from "@/assets/icons/1st_medal.png";
+import Medal2 from "@/assets/icons/2nd_medal.png";
+import Medal3 from "@/assets/icons/3rd_medal.png";
 
 type Props = {};
 
 const getMedal = (index: number) => {
   if (index === 0)
-    return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/1st%20Place%20Medal.webp";
+    return Medal1;
   if (index === 1)
-    return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/2nd%20Place%20Medal.webp";
+    return Medal2;
   if (index === 2)
-    return "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/3rd%20Place%20Medal.webp";
+    return Medal3;
 };
 
 const LeaderboardPage = (props: Props) => {
