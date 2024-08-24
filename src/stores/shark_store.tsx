@@ -46,24 +46,6 @@ interface SharkState {
   setWallet: (wallet: string) => void;
 }
 
-const preloadBanner = () => {
-  const img = new Image();
-  img.src = '/assets/images/banner.png';
-  img.onload = () => {
-    console.log('loaded');
-  };
-};
-
-const preloadAnimation = () => {
-  const obj = { ...UnderwarterLevel } as any;
-  for (const property in obj) {
-    const img = new Image();
-    img.src = obj[property].imagePath;
-    img.onload = () => {
-      console.log('loaded');
-    };
-  }
-};
 const parseStatus = (isClaimed: boolean) => {
   if (isClaimed) {
     return MissionStatus.DONE;
@@ -102,13 +84,15 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
 
   initStore: async () => {
     const [isMiniApp] = initMiniApp();
+    // console.log(isMiniApp);
     if (!isMiniApp.ready) {
       return;
     }
+
     try {
       const { login, getMissions } = get();
       await login();
-      await Promise.all([getMissions(), preloadAnimation(), preloadBanner()]);
+      await Promise.all([getMissions()]);
       set({ isInitFinished: true });
     } catch (error) {
       console.log(error);
@@ -117,8 +101,6 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
 
   login: async () => {
     const initData = initInitData();
-
-    console.log(initData);
 
     if (!initData?.user) {
       throw new Error('initData is not defined');
