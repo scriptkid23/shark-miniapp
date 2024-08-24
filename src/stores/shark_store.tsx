@@ -137,6 +137,7 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   },
 
   getMissions: async () => {
+    set({ missions: undefined });
     const { data } = await axiosInstance.get('/user/get-mission');
     const missions = parseMissions(data);
     set({ missions });

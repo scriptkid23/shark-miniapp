@@ -6,8 +6,15 @@ import MisstionTypeWrapper from "./MisssionTypeWrapper";
 type Props = {};
 
 const MissionPage = (props: Props) => {
-  const { missions } = useSharkStore();
+  const { missions,getMissions } = useSharkStore();
 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getMissions();
+    };
+    fetchData();
+  }, []);
   if (!missions) return null;
   return (
     <div className="w-full h-full px-4 pt-9 overflow-y-auto hidden-scrollbar">
@@ -25,7 +32,7 @@ const MissionPage = (props: Props) => {
                   {mission.missions.map((missionItem, index) => {
                     return (
                       <div
-                        key={index}
+                        key={missionItem.id}
                         className={`${
                           index !== mission.missions.length - 1 ? "mb-5" : ""
                         }`}

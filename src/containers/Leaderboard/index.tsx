@@ -31,6 +31,7 @@ const LeaderboardPage = (props: Props) => {
     };
     fetchData();
   }, []);
+  
 
   return (
     <div className="w-full h-full m-auto py-9 px-4 overflow-y-auto hidden-scrollbar">
@@ -78,7 +79,7 @@ const LeaderboardPage = (props: Props) => {
                   name={getInitials(item.playerName)}
                 />
                 <div className="flex flex-col flex-1">
-                  <p className="text-sm">{item.playerName || "Victor Hugo"}</p>
+                  <p className="text-sm">{item.playerName || ""}</p>
                   <p className="text-base font-semibold">
                     {numberWithCommas(item.score || 0)} BAITS
                   </p>

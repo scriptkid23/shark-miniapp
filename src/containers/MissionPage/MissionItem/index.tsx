@@ -69,6 +69,7 @@ const MissionItem = (props: Props) => {
 
   const handleMakeTx = async (amount: string) => {
     try {
+      const { promise } = sleep(15000);
       const walletAddress = import.meta.env.VITE_ADDRESS;
       const store: TonCash = {
         $$type: 'TonCash',
@@ -87,7 +88,7 @@ const MissionItem = (props: Props) => {
       };
 
       const tx = await tonConnectUI.sendTransaction(transaction);
-
+      await promise;
       return tx.boc;
     } catch (error) {
       console.log(error);
