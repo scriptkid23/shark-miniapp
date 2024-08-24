@@ -16,7 +16,7 @@ const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 const Inner: FC = () => {
   const debug = useLaunchParams().startParam === 'debug';
   const manifestUrl = useMemo(() => {
-    return new URL('https://test-youtube.s3.amazonaws.com/manifest.json').toString();
+    return new URL('https://shark-miniapp.vercel.app/manifest.json', window.location.origin).toString();
   }, []);
   useEffect(() => {
     if (debug) {
