@@ -45,7 +45,7 @@ const NavbarRedirect = () => {
 
   return (
    
-      <div className="bg-[#111111] px-9 py-3 rounded-2xl grid grid-cols-[auto_auto_auto_auto] gap-x-4">
+      <div className="bg-[#111111] px-9 py-3 rounded-[60px] grid grid-cols-[auto_auto_auto_auto] gap-x-4">
         {NAV_LIST.map((item) => (
           <div key={item.path} className="w-fit m-auto" onClick={() => handleNavigate(item.path)}>
             {isActive(item.path) ? (
