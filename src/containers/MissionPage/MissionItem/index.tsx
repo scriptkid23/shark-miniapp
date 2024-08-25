@@ -52,6 +52,14 @@ export function storeTonCash(src: TonCash) {
     b_0.storeAddress(src.sender);
   };
 }
+const makeTxOnTonId = 4;
+const realSharkId = 5;
+const inviteTask = 3;
+
+const isTaskOnTon = (missionId: number) => {
+  return missionId === makeTxOnTonId || missionId === realSharkId;
+};
+
 const MissionItem = (props: Props) => {
   const { openModal } = useConnectWalletNotificationStore();
   const { mission } = props;
@@ -61,10 +69,19 @@ const MissionItem = (props: Props) => {
   const navigate = useNavigate();
   const { setPoint } = useSharkStore();
 
-  const statusText = {
-    [MissionStatus.DONE]: 'Done',
-    [MissionStatus.PENDING]: 'Pending',
-    [MissionStatus.ACTIVE]: 'Active',
+  const statusText = () => {
+    if (isTaskOnTon(mission.id)) {
+      return {
+        [MissionStatus.DONE]: 'Guaranteed',
+        [MissionStatus.PENDING]: 'Pending',
+        [MissionStatus.ACTIVE]: 'Active',
+      };
+    }
+    return {
+      [MissionStatus.DONE]: 'Done',
+      [MissionStatus.PENDING]: 'Pending',
+      [MissionStatus.ACTIVE]: 'Active',
+    };
   };
 
   const handleMakeTx = async (amount: string) => {
@@ -104,9 +121,6 @@ const MissionItem = (props: Props) => {
   };
 
   const getMissionFunction = async (mission: Mission) => {
-    const makeTxOnTonId = 4;
-    const realSharkId = 5;
-    const inviteTask = 3;
     const missionId = mission.id;
     const tonDecimals = 9;
     let amount = '';
@@ -169,7 +183,7 @@ const MissionItem = (props: Props) => {
             disabled={isDisabled}
             onClick={() => handleMission(mission)}
           >
-            {statusText[status]}
+            {statusText()[status]}
           </button>
         </div>
       </div>

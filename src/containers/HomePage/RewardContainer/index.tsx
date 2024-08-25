@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import RewardItem from './RewardItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import axiosInstance from '@/axiosConfig';
+import { useSharkStore } from '@/stores/shark_store';
+import { getLevel, stripVal } from '@/utils';
+import { address } from '@ton/core';
+import RewardItem, { RewardItemProps } from './RewardItem';
 type Props = {};
 
 const FAKE_REWARDS = [
@@ -26,24 +26,39 @@ const FAKE_REWARDS = [
 ];
 
 const RewardContainer = () => {
-  const [items, setItems] = useState<any[]>([]);
+  const { user } = useSharkStore();
+  const { wallet, isPremium } = user || {};
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axiosInstance.get('/user/get-list-claim');
-      if (data?.data?.claimed && data?.data?.claimed.length > 0) {
-        setItems(data.data.claimed);
-      }
-    };
-    fetchData();
-  }, []);
-  
+  const walletParsed = !!wallet && JSON.parse(wallet);
+
+  const listReward = () => {
+    const list: RewardItemProps[] = [];
+    if (!walletParsed) return list;
+    Object.keys(walletParsed).forEach((key) => {
+      list.push({
+        iconId: getLevel(walletParsed[key].totalTransaction || 0),
+        name: stripVal(address(key).toString()),
+        point: walletParsed[key]?.point || 0,
+        description: 'Claim your reward',
+      });
+    });
+    if (isPremium) {
+      list.push({
+        iconId: 6,
+        name: 'Premium Status',
+        point: 3000,
+      });
+    }
+    return list;
+  };
+  listReward();
+
   return (
     <div className="relative m-auto mt-6">
       <h3 className="text-lg font-semibold mb-2">Your reward</h3>
       <div>
-        {items.map((item, index) => (
-          <RewardItem key={index} {...item.mission} />
+        {listReward().map((item, index) => (
+          <RewardItem key={index} {...item} />
         ))}
       </div>
     </div>

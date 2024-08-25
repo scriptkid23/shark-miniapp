@@ -48,3 +48,10 @@ export function getRandomColor(playerId: number): any {
 
   return colors[index];
 }
+
+export const getLevel = (points: number) => {
+  if (points <= 10) return 1;
+  if (points <= 50) return 2;
+  if (points <= 300) return 3;
+  return 4;
+};

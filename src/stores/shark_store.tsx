@@ -105,9 +105,8 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     if (!initData?.user) {
       throw new Error('initData is not defined');
     }
-    const { user, startParam } = initData;
-
-    console.log(startParam);
+    const { user, startParam } = initData;  
+    console.log(user);
     const body = {
       uid: user.id,
       username: user.username || user.lastName + ' ' + user.firstName,

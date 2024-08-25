@@ -1,5 +1,5 @@
 import { useSharkStore } from '@/stores/shark_store';
-import { numberWithCommas } from '@/utils';
+import { getLevel, numberWithCommas } from '@/utils';
 import { useTonWallet } from '@tonconnect/ui-react';
 import { WithSeeMore } from 'react-insta-stories';
 import { Renderer } from 'react-insta-stories/dist/interfaces';
@@ -28,12 +28,7 @@ export const UnderwarterLevel: Record<number, { name: string; imagePath: string 
   },
 };
 
-const getLevel = (points: number) => {
-  if (points <= 10) return 1;
-  if (points <= 50) return 2;
-  if (points <= 300) return 3;
-  return 4;
-};
+
 
 const invite_link = import.meta.env.VITE_INVITE_LINK;
 const Stories_1: Renderer = ({ story, action }) => {

@@ -17,10 +17,10 @@ const Stories_2: Renderer = ({ story, action }) => {
       <div className="h-full w-full pt-10 px-[10px] text-center">
         <h1 className="text-[44px] font-syneTactile">You are amazing!</h1>
         <p className="font-medium text-[#A7A7A8] text-lg">Here is your BAIT rewards</p>
-        <div className="w-[125px] h-[193px] m-auto mt-[48px]">
+        <div className="w-[180px] m-auto">
           <img className="w-full h-full" src={HookIcon} alt="animal" />
         </div>
-        <h3 className="font-rubik text-5xl mt-[64px]">{numberWithCommas(transaction.point || 0)}</h3>
+        <h3 className="font-rubik text-5xl mt-[32px]">{numberWithCommas(transaction.point || 0)}</h3>
         <p className="font-medium text-[#A7A7A8] text-lg">Thanks for your time on Ton network 🤝</p>
       </div>
     </WithSeeMore>
