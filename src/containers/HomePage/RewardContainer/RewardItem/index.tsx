@@ -24,6 +24,9 @@ const mappingIconId: Record<number, string> = {
 
 const RewardItem = (props: RewardItemProps) => {
   const { iconId, name, description, point, currency = 'BAITS', isPositive = true } = props;
+  if (point <= 0) {
+    return <></>;
+  }
   return (
     <div className="flex items-center justify-between mb-2 last:mb-0">
       <div className="flex items-center">

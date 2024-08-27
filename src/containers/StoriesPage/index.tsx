@@ -46,4 +46,32 @@ const StoriesPage = (props: Props) => {
   );
 };
 
+{/* <div className="relative w-full max-w-md mx-auto h-screen">
+<video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover z-10">
+  <source
+    src="videos/video.mov"
+    type="video/mp4"
+  />
+  Your browser does not support the video tag.
+</video>
+<div className="relative z-10 w-full h-full">
+  <ReactInstaStories
+    stories={stories}
+    width="100%"
+    height="100%"
+    loop
+    storyContainerStyles={{
+      background: 'transparent',
+    }}
+    storyInnerContainerStyles={{
+      background: 'transparent',
+      minHeight: '100vh',
+    }}
+    progressWrapperStyles={{
+      height: '5px',
+      borderRadius: '2.5px;',
+    }}
+  />
+</div>
+</div> */}
 export default StoriesPage;

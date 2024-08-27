@@ -142,8 +142,8 @@ const LoadingTransaction = (props: Props) => {
   }, []);
 
   return (
-    <div className="relative flex items-center justify-center h-screen flex-col gap-12">
-      <GaugeCustom
+  <div className="relative flex items-center justify-center h-screen flex-col gap-12">
+    <GaugeCustom
         title={
           <span className="absolute bottom-[-20px] left-0 right-0">
             Tracking total <br /> on-chain transaction <br /> on Ton network

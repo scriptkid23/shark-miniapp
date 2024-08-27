@@ -11,7 +11,7 @@ const Stories_2: Renderer = ({ story, action }) => {
   const tonWallet = useTonWallet();
   const rawWallet = tonWallet?.account?.address;
   const objUserWalletParsed = JSON.parse(user?.wallet || '{}');
-  const transaction = objUserWalletParsed[rawWallet || ''];
+  const transaction = objUserWalletParsed[rawWallet || ''] || '';
   return (
     <WithSeeMore story={story} action={action} customCollapsed={CustomCollapsedComponent}>
       <div className="h-full w-full pt-10 px-[10px] text-center">
