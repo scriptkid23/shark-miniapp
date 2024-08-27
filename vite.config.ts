@@ -10,7 +10,7 @@ export default defineConfig({
   base: '/',
   plugins: [react(), mkcert()],
   server: {
-    host: '192.168.78.127',
+    host: '192.168.1.4',
     port: 3001,
     https: true,
   },

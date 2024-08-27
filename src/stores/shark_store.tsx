@@ -91,8 +91,8 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
 
     try {
       const { login, getMissions } = get();
-      await login();
-      await Promise.all([getMissions()]);
+      // await login();
+      // await Promise.all([getMissions()]);
       set({ isInitFinished: true });
     } catch (error) {
       console.log(error);
