@@ -1,9 +1,16 @@
-import { submitReferral } from '@/apis';
-import axiosInstance from '@/axiosConfig';
-import { MissionIconType, MissionStatus } from '@/containers/MissionPage/MissionItem';
-import { UnderwarterLevel } from '@/containers/StoriesPage/Stories1/Stories_1';
-import { initInitData, initMiniApp, retrieveLaunchParams } from '@telegram-apps/sdk';
-import { create } from 'zustand';
+import { submitReferral } from "@/apis";
+import axiosInstance from "@/axiosConfig";
+import {
+  MissionIconType,
+  MissionStatus,
+} from "@/containers/MissionPage/MissionItem";
+import { UnderwarterLevel } from "@/containers/StoriesPage/Stories1/Stories_1";
+import {
+  initInitData,
+  initMiniApp,
+  retrieveLaunchParams,
+} from "@telegram-apps/sdk";
+import { create } from "zustand";
 
 export type Missions = {
   type: string;
@@ -91,8 +98,8 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
 
     try {
       const { login, getMissions } = get();
-      // await login();
-      // await Promise.all([getMissions()]);
+      await login();
+      await Promise.all([getMissions()]);
       set({ isInitFinished: true });
     } catch (error) {
       console.log(error);
@@ -103,29 +110,29 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     const initData = initInitData();
 
     if (!initData?.user) {
-      throw new Error('initData is not defined');
+      throw new Error("initData is not defined");
     }
-    const { user, startParam } = initData;  
+    const { user, startParam } = initData;
     console.log(user);
     const body = {
       uid: user.id,
-      username: user.username || user.lastName + ' ' + user.firstName,
+      username: user.username || user.lastName + " " + user.firstName,
       isPremium: !!user.isPremium,
       referralCode: startParam,
     };
-    const { data } = await axiosInstance.post('/user/login', body);
+    const { data } = await axiosInstance.post("/user/login", body);
     set({ user: data.user });
   },
 
   getMissions: async () => {
     set({ missions: undefined });
-    const { data } = await axiosInstance.get('/user/get-mission');
+    const { data } = await axiosInstance.get("/user/get-mission");
     const missions = parseMissions(data);
     set({ missions });
   },
 
   getLeaderboard: async () => {
-    const { data } = await axiosInstance.get('/user/get-leaderboard');
+    const { data } = await axiosInstance.get("/user/get-leaderboard");
     console.log(data);
   },
 
