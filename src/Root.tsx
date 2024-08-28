@@ -23,7 +23,7 @@ const Inner: FC = () => {
   const debug = useLaunchParams().startParam === "debug";
   const manifestUrl = useMemo(() => {
     return new URL(
-      process.env.MANIFEST_URL as string,
+      import.meta.env.VITE_MANIFEST_URL,
       window.location.origin
     ).toString();
   }, []);
