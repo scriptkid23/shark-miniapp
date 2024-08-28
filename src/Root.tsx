@@ -1,26 +1,35 @@
-import { SDKProvider, useLaunchParams } from '@telegram-apps/sdk-react';
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import App from '@/App';
-import { ErrorBoundary } from '@/components/Layout/ErrorBoundary';
-import { FC, useEffect, useMemo } from 'react';
+import { SDKProvider, useLaunchParams } from "@telegram-apps/sdk-react";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import App from "@/App";
+import { ErrorBoundary } from "@/components/Layout/ErrorBoundary";
+import { FC, useEffect, useMemo } from "react";
 
 const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
   <div>
     <p>An unhandled error occurred:</p>
     <blockquote>
-      <code>{error instanceof Error ? error.message : typeof error === 'string' ? error : JSON.stringify(error)}</code>
+      <code>
+        {error instanceof Error
+          ? error.message
+          : typeof error === "string"
+          ? error
+          : JSON.stringify(error)}
+      </code>
     </blockquote>
   </div>
 );
 
 const Inner: FC = () => {
-  const debug = useLaunchParams().startParam === 'debug';
+  const debug = useLaunchParams().startParam === "debug";
   const manifestUrl = useMemo(() => {
-    return new URL('https://shark-miniapp.vercel.app/manifest.json', window.location.origin).toString();
+    return new URL(
+      process.env.MANIFEST_URL as string,
+      window.location.origin
+    ).toString();
   }, []);
   useEffect(() => {
     if (debug) {
-      import('eruda').then((lib) => lib.default.init());
+      import("eruda").then((lib) => lib.default.init());
     }
   }, [debug]);
 
