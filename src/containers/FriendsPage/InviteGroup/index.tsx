@@ -29,7 +29,7 @@ const InviteGroup = (props: Props) => {
 
     utils.shareURL(
       path + "?startapp=" + user?.codeInvite,
-      "Look! Some cool app here!"
+      "Become a real SHARKS now. Join us!"
     );
   };
   const handleCopyLink = () => {
