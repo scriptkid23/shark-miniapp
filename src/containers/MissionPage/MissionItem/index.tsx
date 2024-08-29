@@ -149,7 +149,6 @@ const MissionItem = (props: Props) => {
   };
 
   const handleMission = async (mission: Mission) => {
-    console.log(mission);
     try {
       setStatus(MissionStatus.PENDING);
       let tx = '';
@@ -160,8 +159,14 @@ const MissionItem = (props: Props) => {
       const { data } = await checkMission(mission.id, tx, tonAddress);
       setPoint(data?.data?.point);
       setStatus(MissionStatus.DONE);
-    } catch (error) {
-      setStatus(MissionStatus.ACTIVE);
+    } catch (error: any) {
+      const errorMsg = error?.response?.data?.error;
+      console.log(error?.response?.data?.error);
+      if (errorMsg === 'CLAIM PENDING' || errorMsg === 'PENDING') {
+        setStatus(MissionStatus.PENDING);
+      } else {
+        setStatus(MissionStatus.ACTIVE);
+      }
     }
   };
 

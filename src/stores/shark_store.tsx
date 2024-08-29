@@ -53,10 +53,18 @@ interface SharkState {
   setWallet: (wallet: string) => void;
 }
 
-const parseStatus = (isClaimed: boolean) => {
-  if (isClaimed) {
+const parseStatus = (claimed:string ) => {
+  if(claimed === "FAIL"){
+    return MissionStatus.ACTIVE;
+  }
+  if (claimed === "DONE") {
     return MissionStatus.DONE;
   }
+
+  if (claimed === "PENDING") {
+    return MissionStatus.PENDING;
+  }
+
   return MissionStatus.ACTIVE;
 };
 
