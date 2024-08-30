@@ -62,7 +62,7 @@ const LeaderboardPage = (props: Props) => {
         </div>
       </div>
       <div className="mt-9 h-auto overflow-y-auto">
-        <p className="text-lg font-semibold mb-6">{numberWithCommas(leaderboard?.leaderBoard?.length || 0)} holders</p>
+        <p className="text-lg font-semibold mb-6">{numberWithCommas(leaderboard?.total || 0)} holders</p>
         <div className="overflow-y-auto">
           {leaderboard?.leaderBoard &&
             leaderboard?.leaderBoard.map((item: any, index: number) => {

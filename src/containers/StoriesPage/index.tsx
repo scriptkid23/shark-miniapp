@@ -1,10 +1,10 @@
+import { useSharkStore } from '@/stores/shark_store';
+import { useTonWallet } from '@tonconnect/ui-react';
 import ReactInstaStories from 'react-insta-stories';
 import { Story } from 'react-insta-stories/dist/interfaces';
+import { Navigate } from 'react-router-dom';
 import Stories_1 from './Stories1/Stories_1';
 import Stories_2 from './Stories2';
-import { useSharkStore } from '@/stores/shark_store';
-import { Navigate } from 'react-router-dom';
-import { useTonWallet } from '@tonconnect/ui-react';
 type Props = {};
 
 const stories: Story[] = [
@@ -21,7 +21,6 @@ const StoriesPage = (props: Props) => {
   const { user } = useSharkStore();
   const tonWallet = useTonWallet();
   const rawWallet = tonWallet?.account?.address;
-
   const objUserWalletParsed = JSON.parse(user?.wallet || '{}');
   const isWalletMatch = !!rawWallet && !!objUserWalletParsed[rawWallet];
 
@@ -30,9 +29,7 @@ const StoriesPage = (props: Props) => {
   return (
     <div className="w-full max-w-md mx-auto h-screen">
       <div className="relative w-full max-w-md mx-auto h-screen">
-        <video autoPlay loop muted className="absolute inset-0 w-full h-full object-cover z-10">
-          <source src="/liquid.mp4" type="video/mp4" />
-        </video>
+        <img src="/liquid.gif" className="absolute inset-0 w-full h-full object-cover z-10" />
         <div className="relative z-10 w-full h-full">
           <ReactInstaStories
             stories={stories}

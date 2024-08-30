@@ -5,17 +5,17 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 // https://vitejs.dev/config/
-import mkcert from 'vite-plugin-mkcert'
+import mkcert from 'vite-plugin-mkcert';
 export default defineConfig({
   base: '/',
-  plugins: [react(), mkcert()],
-  server: {
-    host: '192.168.1.4',
-    port: 3001,
-    https: true,
-  },
+  plugins: [react()],
+  // server: {
+  //   host: '192.168.1.51',
+  //   port: 3001,
+  //   https: true,
+  // },
   preview: {
-    port: 3000
+    port: 3000,
   },
   publicDir: './public',
   resolve: {
