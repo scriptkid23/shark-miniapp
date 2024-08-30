@@ -8,12 +8,12 @@ import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfil
 import mkcert from 'vite-plugin-mkcert';
 export default defineConfig({
   base: '/',
-  plugins: [react()],
-  // server: {
-  //   host: '192.168.1.51',
-  //   port: 3001,
-  //   https: true,
-  // },
+  plugins: [react(), mkcert()],
+  server: {
+    host: '192.168.1.4',
+    port: 3001,
+    https: true,
+  },
   preview: {
     port: 3000,
   },
