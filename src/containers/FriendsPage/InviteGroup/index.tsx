@@ -38,7 +38,7 @@ const InviteGroup = (props: Props) => {
     copy(path + "?startapp=" + user?.codeInvite || "");
   };
   return (
-    <div className="fixed bottom-20 left-0 right-0 bg-[#090909] flex gap-4 justify-between py-2 text-center px-4">
+    <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-[#090909] flex gap-4 justify-between py-2 text-center px-4">
       <Button className="cursor-pointer" onClick={handleInvite}>
         Invite
       </Button>
