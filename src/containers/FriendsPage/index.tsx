@@ -14,6 +14,7 @@ interface User {
   point: number;
   isPremium: boolean;
   createdAt: string;
+  avt?: string;
 }
 
 interface Invitation {
@@ -316,6 +317,7 @@ const FriendsPage = (props: Props) => {
             >
               <div>
                 <Avatar
+                  src={friend.invitedUser.avt}
                   classNames={{
                     name: `font-medium`,
                   }}
