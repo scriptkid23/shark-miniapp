@@ -1,21 +1,201 @@
-import { submitReferral } from '@/apis';
 import axiosInstance from '@/axiosConfig';
 import { MissionIconType, MissionStatus } from '@/containers/MissionPage/MissionItem';
-import { UnderwarterLevel } from '@/containers/StoriesPage/Stories1/Stories_1';
-import { initInitData, initMiniApp, retrieveLaunchParams } from '@telegram-apps/sdk';
+import { initInitData, initMiniApp } from '@telegram-apps/sdk';
 import { create } from 'zustand';
+
+export type MissionItem = {
+  id: number;
+  title: string;
+  description: string;
+  value: number;
+  iconId: keyof typeof MissionIconType;
+  status: MissionStatus;
+};
 
 export type Missions = {
   type: string;
   name: string;
-  missions: {
-    id: number;
-    title: string;
-    description: string;
-    value: number;
-    iconId: keyof typeof MissionIconType;
-    status: MissionStatus;
-  }[];
+  missions: MissionItem[];
+  missionWithChild?: Missions[];
+};
+
+const mockFetchMissions = () => {
+  return {
+    mission: {
+      ton_native: {
+        visible: true,
+        name: 'Ton Native',
+        type: 0,
+        missions: [
+          {
+            id: 4,
+            name: 'Make a transaction on TON',
+            description: null,
+            icon_id: 2,
+            type: 0,
+            point: 10000,
+            claimed: 'FAIL',
+          },
+          {
+            id: 5,
+            name: 'Become a realShark',
+            description: null,
+            icon_id: 2,
+            type: 0,
+            point: 120000,
+            claimed: 'FAIL',
+          },
+        ],
+      },
+      daily_mission: {
+        visible: true,
+        name: 'Daily Mission',
+        type: 1,
+        missions: [
+          {
+            id: 3,
+            name: 'Invite a friend',
+            description: null,
+            icon_id: 3,
+            type: 1,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 2,
+            name: 'Drop $SHARKS in this post',
+            description: 'https://x.com/RealShark_TON/status/1830536073551958283',
+            icon_id: 1,
+            type: 1,
+            point: 300,
+            claimed: 'FAIL',
+          },
+          {
+            id: 1,
+            name: 'Retweet a post',
+            description: 'https://x.com/RealShark_TON/status/1830536073551958283',
+            icon_id: 1,
+            type: 1,
+            point: 200,
+            claimed: 'FAIL',
+          },
+        ],
+      },
+      shark_loyalty: {
+        visible: true,
+        name: 'Shark Loyalty',
+        type: 2,
+        missions: [
+          {
+            id: 6,
+            name: 'Follow SHARKS',
+            description: 'https://x.com/RealShark_TON',
+            icon_id: 1,
+            type: 2,
+            point: 1000,
+            claimed: 'FAIL',
+          },
+          {
+            id: 7,
+            name: 'Become a White Shark',
+            description: 'https://forms.gle/3LxEUkMWBvTpRhSK6',
+            icon_id: 1,
+            type: 2,
+            point: 20000,
+            claimed: 'FAIL',
+          },
+          {
+            id: 8,
+            name: 'Join SHARKS Club',
+            description: 'https://t.me/realsharks_ton',
+            icon_id: 3,
+            type: 2,
+            point: 1000,
+            claimed: 'FAIL',
+          },
+          {
+            id: 9,
+            name: 'Retweet about #SHARKS',
+            description: 'https://x.com/RealShark_TON/status/1829066743408738420/photo/1',
+            icon_id: 1,
+            type: 2,
+            point: 1000,
+            claimed: 'FAIL',
+          },
+        ],
+      },
+      shark_alliance: {
+        visible: true,
+        name: 'Shark Allince',
+        type: 3,
+        missions: [
+          {
+            id: 10,
+            name: 'Follow DogX',
+            description: 'https://x.com/realDogX',
+            icon_id: 5,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 11,
+            name: 'Join DogX Community',
+            description: 'https://t.me/RealDogX_Bot',
+            icon_id: 5,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 12,
+            name: 'Follow Aylab',
+            description: 'https://x.com/aylab_io',
+            icon_id: 6,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 13,
+            name: 'Follow Tappy Tap',
+            description: 'https://x.com/tappysocial',
+            icon_id: 7,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 14,
+            name: 'Join Tappy Tap',
+            description: 'https://t.me/TappySocial_bot/Tappy',
+            icon_id: 7,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 15,
+            name: 'Play Wcoin',
+            description: 'https://t.me/Whatsgamesbot/WCoin?startapp=C_SHARKS',
+            icon_id: 8,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+          {
+            id: 16,
+            name: 'Play WcoinIDR',
+            description: 'https://t.me/Wcoingamebot/WcoinIDR?startapp=C_SHARKS',
+            icon_id: 8,
+            type: 3,
+            point: 500,
+            claimed: 'FAIL',
+          },
+        ],
+      },
+    },
+  };
 };
 
 export type User = {
@@ -37,6 +217,7 @@ interface SharkState {
   isInitFinished: boolean;
   user?: User;
   missions?: Missions[];
+  partnerMissions?: Missions[];
 
   initStore: () => void;
   login: () => Promise<void>;
@@ -61,30 +242,88 @@ const parseStatus = (claimed: string) => {
   return MissionStatus.ACTIVE;
 };
 
-const parseMissions = (data: any): Missions[] => {
+const parseMissions = (data: any) => {
   const { mission } = data;
   const result: Missions[] = [];
+  const partnerMissions: Missions[] = [];
+  const { shark_alliance, ...tempMission } = mission || {};
 
-  for (const property in mission) {
+  for (const property in tempMission) {
     const missions = mission[property]?.missions;
-    result.push({
-      type: property,
-      name: mission[property].name,
-      missions:
-        missions && missions.length > 0
-          ? missions.map((item: any) => ({
-              id: item.id,
-              title: item.name,
-              description: item.description,
-              value: item.point || 0,
-              iconId: item.icon_id,
-              status: parseStatus(item.claimed),
-            }))
-          : [],
+    if (property !== 'shark_alliance') {
+      result.push({
+        type: property,
+        name: mission[property].name,
+        missions:
+          missions && missions.length > 0
+            ? missions.map((item: any) => ({
+                id: item.id,
+                title: item.name,
+                description: item.description,
+                value: item.point || 0,
+                iconId: item.icon_id,
+                status: parseStatus(item.claimed),
+              }))
+            : [],
+      });
+    }
+  }
+
+  if (shark_alliance) {
+    const dogx = [];
+    const dogx_icon_id = 5;
+    const aylab = [];
+    const aylab_icon_id = 6;
+    const tappyTap = [];
+    const tappyTap_icon_id = 7;
+    const wcoin = [];
+    const wcoin_icon_id = 8;
+
+    for (const items of shark_alliance.missions) {
+      const mission: MissionItem = {
+        id: items.id,
+        title: items.name,
+        description: items.description,
+        value: items.point || 0,
+        iconId: items.icon_id,
+        status: parseStatus(items.claimed),
+      };
+      if (items.icon_id === dogx_icon_id) {
+        dogx.push(mission);
+      }
+      if (items.icon_id === aylab_icon_id) {
+        aylab.push(mission);
+      }
+      if (items.icon_id === tappyTap_icon_id) {
+        tappyTap.push(mission);
+      }
+      if (items.icon_id === wcoin_icon_id) {
+        wcoin.push(mission);
+      }
+    }
+    partnerMissions.push({
+      type: 'dogx',
+      name: 'DogX',
+      missions: dogx,
+    });
+    partnerMissions.push({
+      type: 'aylab',
+      name: 'Aylab',
+      missions: aylab,
+    });
+    partnerMissions.push({
+      type: 'tappyTap',
+      name: 'Tappy Tap',
+      missions: tappyTap,
+    });
+    partnerMissions.push({
+      type: 'wcoin',
+      name: 'Wcoin',
+      missions: wcoin,
     });
   }
 
-  return result;
+  return { missions: result, partnerMissions };
 };
 
 export const useSharkStore = create<SharkState>()((set, get) => ({
@@ -128,8 +367,9 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   getMissions: async () => {
     set({ missions: undefined });
     const { data } = await axiosInstance.get('/user/get-mission');
+    // const data = mockFetchMissions();
     const missions = parseMissions(data);
-    set({ missions });
+    set({ missions: missions.missions, partnerMissions: missions.partnerMissions });
   },
 
   getLeaderboard: async () => {

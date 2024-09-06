@@ -4,6 +4,10 @@ import TeleIcon from '@/assets/icons/mission/tele.png';
 import Twitter from '@/assets/icons/mission/twitter.png';
 import FriendIcon from '@/assets/icons/mission/friend.png';
 import DogxIcon from '@/assets/icons/mission/dogx.png';
+import AylabIcon from '@/assets/icons/mission/aylab.png';
+import TappyTapIcon from '@/assets/icons/mission/tappytap.png';
+import WcoinIcon from '@/assets/icons/mission/wcoin.png';
+
 import { checkMission } from '@/apis';
 import { address, Address, beginCell } from '@ton/core';
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
@@ -26,6 +30,9 @@ export const MissionIconType = {
   3: TeleIcon,
   4: FriendIcon,
   5: DogxIcon,
+  6: AylabIcon,
+  7: TappyTapIcon,
+  8: WcoinIcon,
 };
 
 type Mission = {
