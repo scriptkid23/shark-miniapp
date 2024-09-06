@@ -45,7 +45,7 @@ const CheckingTotalTxButton = () => {
       onClick={handleTx}
       className="w-full py-3 px-4 bg-[linear-gradient(204deg,_#2B6DFD_13.83%,_#091633_109.1%)] rounded-lg mt-4 disabled:bg-none disabled:bg-[#282829] disabled:text-[#666666] disabled:cursor-not-allowed"
     >
-      <span className="text-sm">Checking Total on-chain transaction</span>
+      <span className="text-sm">Reward for TON OG</span>
     </button>
   );
 };
