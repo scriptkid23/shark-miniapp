@@ -7,6 +7,7 @@ import DogxIcon from '@/assets/icons/mission/dogx.png';
 import AylabIcon from '@/assets/icons/mission/aylab.png';
 import TappyTapIcon from '@/assets/icons/mission/tappytap.png';
 import WcoinIcon from '@/assets/icons/mission/wcoin.png';
+import SecretPadIcon from '@/assets/icons/mission/secretpad.png';
 
 import { checkMission } from '@/apis';
 import { address, Address, beginCell } from '@ton/core';
@@ -33,6 +34,7 @@ export const MissionIconType = {
   6: AylabIcon,
   7: TappyTapIcon,
   8: WcoinIcon,
+  9: SecretPadIcon,
 };
 
 type Mission = {
