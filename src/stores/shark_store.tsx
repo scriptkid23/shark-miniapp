@@ -278,7 +278,9 @@ const parseMissions = (data: any) => {
     const tappyTap_icon_id = 7;
     const wcoin = [];
     const wcoin_icon_id = 8;
-
+    const scecretPad = []; 
+    const scecret_pad_icon_id = 9;
+  
     for (const items of shark_alliance.missions) {
       const mission: MissionItem = {
         id: items.id,
@@ -300,7 +302,11 @@ const parseMissions = (data: any) => {
       if (items.icon_id === wcoin_icon_id) {
         wcoin.push(mission);
       }
+      if (items.icon_id === scecret_pad_icon_id) {
+        scecretPad.push(mission);
+      }
     }
+    
     partnerMissions.push({
       type: 'dogx',
       name: 'DogX',
@@ -321,7 +327,13 @@ const parseMissions = (data: any) => {
       name: 'Wcoin',
       missions: wcoin,
     });
+    partnerMissions.push({ 
+      type: 'scecretPad',
+      name: 'ScecretPadBot',
+      missions: scecretPad,
+    });
   }
+  
 
   return { missions: result, partnerMissions };
 };
