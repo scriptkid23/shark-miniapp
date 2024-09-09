@@ -280,6 +280,9 @@ const parseMissions = (data: any) => {
     const wcoin_icon_id = 8;
     const scecretPad = []; 
     const scecret_pad_icon_id = 9;
+    // Pirate Frenzy
+   const pirateFrenzy = [];
+   const pirateFrenzy_icon_id = 10;
   
     for (const items of shark_alliance.missions) {
       const mission: MissionItem = {
@@ -304,6 +307,9 @@ const parseMissions = (data: any) => {
       }
       if (items.icon_id === scecret_pad_icon_id) {
         scecretPad.push(mission);
+      }
+      if(items.icon_id === pirateFrenzy_icon_id) {
+        pirateFrenzy.push(mission);
       }
     }
     
@@ -331,6 +337,11 @@ const parseMissions = (data: any) => {
       type: 'scecretPad',
       name: 'ScecretPadBot',
       missions: scecretPad,
+    });
+    partnerMissions.push({
+      type: 'pirateFrenzy',
+      name: 'Pirate Frenzy',
+      missions: pirateFrenzy,
     });
   }
   
