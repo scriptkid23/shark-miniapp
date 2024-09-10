@@ -29,3 +29,7 @@ export const submitReferral = (referral: string) => {
 export const fetchFriends = () => {
   return axiosInstance.get('/user/get-list-invite');
 };
+
+export const claimMission = (missionId: number, missionType: string) => {
+  return axiosInstance.post('/mission/claim', { missionId, missionType });
+}

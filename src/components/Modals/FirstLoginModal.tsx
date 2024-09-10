@@ -4,9 +4,20 @@ import { useSharkStore } from '@/stores/shark_store';
 import { Dialog } from '@radix-ui/themes';
 import { useState } from 'react';
 import WarningLogin from '@/assets/images/warning-login.png';
+import { claimMission } from '@/apis';
 
 export const FirstLoginModal = () => {
-  const { isFirstLogin, setIsFirstLogin } = useSharkStore((state) => state);
+  const { isFirstLogin, setIsFirstLogin, setPoint } = useSharkStore((state) => state);
+  const handleClaim = async () => {
+    try {
+      const { data } = await claimMission(1, 'first_login');
+      setPoint(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFirstLogin(false);
+    }
+  };
   return (
     <Dialog.Root open={isFirstLogin} onOpenChange={(state) => setIsFirstLogin(state)}>
       <Dialog.Content
@@ -31,7 +42,7 @@ export const FirstLoginModal = () => {
           <div className="flex justify-center items-center">
             <button
               className="w-[234px] font-interSemiBold mx-auto bg-[#0E2454] text-[#FFCC00] text-sm font-medium py-3 rounded-xl mt-4"
-              onClick={() => setIsFirstLogin(false)}
+              onClick={handleClaim}
             >
               Claim
             </button>
