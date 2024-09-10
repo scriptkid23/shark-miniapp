@@ -361,6 +361,7 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
     };
     const { data } = await axiosInstance.post("/user/login", body);
     set({ user: data.user });
+    set({ isFirstLogin: data?.user?.isFirstLogin });
   },
 
   getMissions: async () => {
