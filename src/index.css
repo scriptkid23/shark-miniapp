@@ -28,8 +28,22 @@
 }
 
 @font-face {
+  font-family: "Rubik-Bold";
+  src: url("./assets/fonts/Rubik-Bold.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "Inter";
   src: url("./assets/fonts/Inter_18pt-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter-SemiBold";
+  src: url("./assets/fonts/Inter_18pt-SemiBold.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -47,6 +61,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+
 
 body {
   margin: 0;

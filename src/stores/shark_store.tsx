@@ -218,6 +218,7 @@ interface SharkState {
   user?: User;
   missions?: Missions[];
   partnerMissions?: Missions[];
+  isFirstLogin: boolean;
 
   initStore: () => void;
   login: () => Promise<void>;
@@ -225,6 +226,7 @@ interface SharkState {
   setTransaction: (total: number, point: number) => void;
   setPoint: (point: number) => void;
   setWallet: (wallet: string) => void;
+  setIsFirstLogin: (isFirstLogin: boolean) => void;
 }
 
 const parseStatus = (claimed: string) => {
@@ -351,7 +353,7 @@ const parseMissions = (data: any) => {
 
 export const useSharkStore = create<SharkState>()((set, get) => ({
   isInitFinished: false,
-
+  isFirstLogin: false,
   initStore: async () => {
     const [isMiniApp] = initMiniApp();
     // console.log(isMiniApp);
@@ -421,5 +423,8 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
       return;
     }
     set({ user: { ...user, wallet } });
+  },
+  setIsFirstLogin: (isFirstLogin: boolean) => {
+    set({ isFirstLogin });
   },
 }));

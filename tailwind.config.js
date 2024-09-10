@@ -10,9 +10,12 @@ module.exports = {
   theme: {
     fontFamily: {
       inter: ['"Inter"'],
+      interSemiBold: ["Inter-SemiBold"],
       rubik: ["Rubik"],
+      rubikBold: ["Rubik-Bold"],
       syneTactile: ["SyneTactile"],
       chakrapetch: ["ChakraPetch"],
+      
     },
     extend: {},
   },
