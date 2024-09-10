@@ -1,29 +1,35 @@
-import HookIcon from '@/assets/icons/mission/hook.png';
-import { useState } from 'react';
-import TeleIcon from '@/assets/icons/mission/tele.png';
-import Twitter from '@/assets/icons/mission/twitter.png';
-import FriendIcon from '@/assets/icons/mission/friend.png';
-import DogxIcon from '@/assets/icons/mission/dogx.png';
-import AylabIcon from '@/assets/icons/mission/aylab.png';
-import TappyTapIcon from '@/assets/icons/mission/tappytap.png';
-import WcoinIcon from '@/assets/icons/mission/wcoin.png';
-import SecretPadIcon from '@/assets/icons/mission/secretpad.png';
-import PirateFrenzyIcon from '@/assets/icons/mission/pfrenzy.png';
+import HookIcon from "@/assets/icons/mission/hook.png";
+import { useState } from "react";
+import TeleIcon from "@/assets/icons/mission/tele.png";
+import Twitter from "@/assets/icons/mission/twitter.png";
+import FriendIcon from "@/assets/icons/mission/friend.png";
+import DogxIcon from "@/assets/icons/mission/dogx.png";
+import AylabIcon from "@/assets/icons/mission/aylab.png";
+import TappyTapIcon from "@/assets/icons/mission/tappytap.png";
+import WcoinIcon from "@/assets/icons/mission/wcoin.png";
+import SecretPadIcon from "@/assets/icons/mission/secretpad.png";
+import PirateFrenzyIcon from "@/assets/icons/mission/pfrenzy.png";
+import PotusClickIcon from "@/assets/icons/mission/potus-click.png";
+import TapAdventureIcon from "@/assets/icons/mission/tap-adventure.png";
 
-import { checkMission } from '@/apis';
-import { address, Address, beginCell } from '@ton/core';
-import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
-import { numberWithCommas, sleep } from '@/utils';
-import useConnectWalletNotificationStore from '@/stores/useConnectWalletNotificationStore';
-import { useNavigate } from 'react-router-dom';
-import { useSharkStore } from '@/stores/shark_store';
-import { initUtils } from '@telegram-apps/sdk';
+import { checkMission } from "@/apis";
+import { address, Address, beginCell } from "@ton/core";
+import {
+  SendTransactionRequest,
+  useTonAddress,
+  useTonConnectUI,
+} from "@tonconnect/ui-react";
+import { numberWithCommas, sleep } from "@/utils";
+import useConnectWalletNotificationStore from "@/stores/useConnectWalletNotificationStore";
+import { useNavigate } from "react-router-dom";
+import { useSharkStore } from "@/stores/shark_store";
+import { initUtils } from "@telegram-apps/sdk";
 
 const utils = initUtils();
 export enum MissionStatus {
-  DONE = 'done',
-  PENDING = 'pending',
-  ACTIVE = 'active',
+  DONE = "done",
+  PENDING = "pending",
+  ACTIVE = "active",
 }
 
 export const MissionIconType = {
@@ -37,6 +43,8 @@ export const MissionIconType = {
   8: WcoinIcon,
   9: SecretPadIcon,
   10: PirateFrenzyIcon,
+  11: PotusClickIcon,
+  12: TapAdventureIcon,
 };
 
 type Mission = {
@@ -52,7 +60,7 @@ type Props = {
   mission: Mission;
 };
 export type TonCash = {
-  $$type: 'TonCash';
+  $$type: "TonCash";
   settleDuration: bigint;
   sender: Address;
 };
@@ -85,15 +93,15 @@ const MissionItem = (props: Props) => {
   const statusText = () => {
     if (isTaskOnTon(mission.id)) {
       return {
-        [MissionStatus.DONE]: 'Guaranteed',
-        [MissionStatus.PENDING]: 'Pending',
-        [MissionStatus.ACTIVE]: 'Active',
+        [MissionStatus.DONE]: "Guaranteed",
+        [MissionStatus.PENDING]: "Pending",
+        [MissionStatus.ACTIVE]: "Active",
       };
     }
     return {
-      [MissionStatus.DONE]: 'Done',
-      [MissionStatus.PENDING]: 'Pending',
-      [MissionStatus.ACTIVE]: 'Active',
+      [MissionStatus.DONE]: "Done",
+      [MissionStatus.PENDING]: "Pending",
+      [MissionStatus.ACTIVE]: "Active",
     };
   };
 
@@ -102,7 +110,7 @@ const MissionItem = (props: Props) => {
       const { promise } = sleep(15000);
       const walletAddress = import.meta.env.VITE_ADDRESS;
       const store: TonCash = {
-        $$type: 'TonCash',
+        $$type: "TonCash",
         settleDuration: BigInt(10),
         sender: address(walletAddress),
       };
@@ -112,7 +120,11 @@ const MissionItem = (props: Props) => {
           {
             address: walletAddress,
             amount: amount,
-            payload: beginCell().store(storeTonCash(store)).endCell().toBoc().toString('base64'),
+            payload: beginCell()
+              .store(storeTonCash(store))
+              .endCell()
+              .toBoc()
+              .toString("base64"),
           },
         ],
       };
@@ -144,18 +156,19 @@ const MissionItem = (props: Props) => {
   const getMissionFunction = async (mission: Mission) => {
     const missionId = mission.id;
     const tonDecimals = 9;
-    let amount = '';
+    let amount = "";
 
-    const isTaskOnTon = missionId === makeTxOnTonId || missionId === realSharkId;
+    const isTaskOnTon =
+      missionId === makeTxOnTonId || missionId === realSharkId;
 
     if (isTaskOnTon && !tonAddress) {
       openModal();
-      throw new Error('Please connect wallet');
+      throw new Error("Please connect wallet");
     }
 
     if (missionId === inviteTask) {
-      navigate('/friends');
-      throw new Error('Please invite friends');
+      navigate("/friends");
+      throw new Error("Please invite friends");
     }
 
     if (missionId === makeTxOnTonId) {
@@ -172,7 +185,7 @@ const MissionItem = (props: Props) => {
   const handleMission = async (mission: Mission) => {
     try {
       setStatus(MissionStatus.PENDING);
-      let tx = '';
+      let tx = "";
       const boc = await getMissionFunction(mission);
       if (boc) {
         tx = boc;
@@ -183,7 +196,7 @@ const MissionItem = (props: Props) => {
     } catch (error: any) {
       const errorMsg = error?.response?.data?.error;
       console.log(error?.response?.data?.error);
-      if (errorMsg === 'CLAIM PENDING' || errorMsg === 'PENDING') {
+      if (errorMsg === "CLAIM PENDING" || errorMsg === "PENDING") {
         setStatus(MissionStatus.PENDING);
       } else {
         setStatus(MissionStatus.ACTIVE);
@@ -191,17 +204,24 @@ const MissionItem = (props: Props) => {
     }
   };
 
-  const isDisabled = status === MissionStatus.DONE || status === MissionStatus.PENDING;
+  const isDisabled =
+    status === MissionStatus.DONE || status === MissionStatus.PENDING;
 
   return (
     <div className="bg-[#282829] p-2 rounded-xl">
       <div className="flex items-center justify-between">
         <div className="rounded-full w-[44px] h-[44px] flex items-center justify-center">
-          <img className="object-cover" src={MissionIconType[mission.iconId]} alt="" />
+          <img
+            className="object-cover"
+            src={MissionIconType[mission.iconId]}
+            alt=""
+          />
         </div>
         <div className="flex-1 ml-[15px]">
           <p className="text-sm font-semibold mb-0.5">{mission.title}</p>
-          <p className="text-xs font-normal">+{numberWithCommas(mission.value)} BAITS</p>
+          <p className="text-xs font-normal">
+            +{numberWithCommas(mission.value)} BAITS
+          </p>
         </div>
         <div>
           <button
