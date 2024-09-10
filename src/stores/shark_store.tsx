@@ -286,6 +286,7 @@ const parseMissions = (data: any) => {
       { type: "potusClick", name: "Potus Click", icon_id: 11 },
       { type: "tapAdventure", name: "TapAdventure", icon_id: 12 },
       { type: "tonCook", name: "Ton Cook", icon_id: 13 },
+      { type: "beeVerse", name: "BeeVerse", icon_id: 14 },
     ];
 
     const partnerMissionsMap: { [key: string]: MissionItem[] } = {};
