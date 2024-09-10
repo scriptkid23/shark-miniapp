@@ -276,22 +276,23 @@ const parseMissions = (data: any) => {
   }
 
   if (shark_alliance) {
-    const dogx = [];
-    const dogx_icon_id = 5;
-    const aylab = [];
-    const aylab_icon_id = 6;
-    const tappyTap = [];
-    const tappyTap_icon_id = 7;
-    const wcoin = [];
-    const wcoin_icon_id = 8;
-    const scecretPad = [];
-    const scecret_pad_icon_id = 9;
-    const pirateFrenzy = [];
-    const pirateFrenzy_icon_id = 10;
-    const potusClick = [];
-    const potusClick_icon_id = 11;
-    const tapAdventure = [];
-    const tapAdventure_icon_id = 12;
+    const partnersConfig = [
+      { type: "dogx", name: "DogX", icon_id: 5 },
+      { type: "aylab", name: "Aylab", icon_id: 6 },
+      { type: "tappyTap", name: "Tappy Tap", icon_id: 7 },
+      { type: "wcoin", name: "Wcoin", icon_id: 8 },
+      { type: "scecretPad", name: "ScecretPadBot", icon_id: 9 },
+      { type: "pirateFrenzy", name: "Pirate Frenzy", icon_id: 10 },
+      { type: "potusClick", name: "Potus Click", icon_id: 11 },
+      { type: "tapAdventure", name: "TapAdventure", icon_id: 12 },
+      { type: "tonCook", name: "Ton Cook", icon_id: 13 },
+    ];
+
+    const partnerMissionsMap: { [key: string]: MissionItem[] } = {};
+
+    partnersConfig.forEach((partner) => {
+      partnerMissionsMap[partner.type] = [];
+    });
 
     for (const items of shark_alliance.missions) {
       const mission: MissionItem = {
@@ -302,71 +303,19 @@ const parseMissions = (data: any) => {
         iconId: items.icon_id,
         status: parseStatus(items.claimed),
       };
-      if (items.icon_id === dogx_icon_id) {
-        dogx.push(mission);
-      }
-      if (items.icon_id === aylab_icon_id) {
-        aylab.push(mission);
-      }
-      if (items.icon_id === tappyTap_icon_id) {
-        tappyTap.push(mission);
-      }
-      if (items.icon_id === wcoin_icon_id) {
-        wcoin.push(mission);
-      }
-      if (items.icon_id === scecret_pad_icon_id) {
-        scecretPad.push(mission);
-      }
-      if (items.icon_id === pirateFrenzy_icon_id) {
-        pirateFrenzy.push(mission);
-      }
-      if (items.icon_id === potusClick_icon_id) {
-        potusClick.push(mission);
-      }
-      if (items.icon_id === tapAdventure_icon_id) {
-        tapAdventure.push(mission);
+
+      const partner = partnersConfig.find((p) => p.icon_id === items.icon_id);
+      if (partner) {
+        partnerMissionsMap[partner.type].push(mission);
       }
     }
 
-    partnerMissions.push({
-      type: "dogx",
-      name: "DogX",
-      missions: dogx,
-    });
-    partnerMissions.push({
-      type: "aylab",
-      name: "Aylab",
-      missions: aylab,
-    });
-    partnerMissions.push({
-      type: "tappyTap",
-      name: "Tappy Tap",
-      missions: tappyTap,
-    });
-    partnerMissions.push({
-      type: "wcoin",
-      name: "Wcoin",
-      missions: wcoin,
-    });
-    partnerMissions.push({
-      type: "scecretPad",
-      name: "ScecretPadBot",
-      missions: scecretPad,
-    });
-    partnerMissions.push({
-      type: "pirateFrenzy",
-      name: "Pirate Frenzy",
-      missions: pirateFrenzy,
-    });
-    partnerMissions.push({
-      type: "potusClick",
-      name: "Potus Click",
-      missions: potusClick,
-    });
-    partnerMissions.push({
-      type: "tapAdventure",
-      name: "TapAdventure",
-      missions: tapAdventure,
+    partnersConfig.forEach((partner) => {
+      partnerMissions.push({
+        type: partner.type,
+        name: partner.name,
+        missions: partnerMissionsMap[partner.type],
+      });
     });
   }
 

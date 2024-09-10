@@ -11,6 +11,7 @@ import SecretPadIcon from "@/assets/icons/mission/secretpad.png";
 import PirateFrenzyIcon from "@/assets/icons/mission/pfrenzy.png";
 import PotusClickIcon from "@/assets/icons/mission/potus-click.png";
 import TapAdventureIcon from "@/assets/icons/mission/tap-adventure.png";
+import TonCookIcon from "@/assets/icons/mission/ton-cook.png";
 
 import { checkMission } from "@/apis";
 import { address, Address, beginCell } from "@ton/core";
@@ -45,6 +46,7 @@ export const MissionIconType = {
   10: PirateFrenzyIcon,
   11: PotusClickIcon,
   12: TapAdventureIcon,
+  13: TonCookIcon,
 };
 
 type Mission = {
