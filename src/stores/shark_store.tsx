@@ -290,6 +290,7 @@ const parseMissions = (data: any) => {
       { type: "tonCook", name: "Ton Cook", icon_id: 13 },
       { type: "beeVerse", name: "BeeVerse", icon_id: 14 },
       { type: "scrooG", name: "Scroo-G", icon_id: 15 },
+      { type: "clockieChaos", name: "Clockie Chaos", icon_id: 16 },
     ];
 
     const partnerMissionsMap: { [key: string]: MissionItem[] } = {};

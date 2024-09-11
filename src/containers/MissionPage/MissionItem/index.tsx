@@ -14,6 +14,7 @@ import TapAdventureIcon from "@/assets/icons/mission/tap-adventure.png";
 import TonCookIcon from "@/assets/icons/mission/ton-cook.png";
 import BeeVerseIcon from "@/assets/icons/mission/bee-verse.png";
 import ScrooGIcon from "@/assets/icons/mission/scroo-g.png";
+import ClockieChaosIcon from "@/assets/icons/mission/clockie-chaos.png";
 
 import { checkMission } from "@/apis";
 import { address, Address, beginCell } from "@ton/core";
@@ -51,6 +52,7 @@ export const MissionIconType = {
   13: TonCookIcon,
   14: BeeVerseIcon,
   15: ScrooGIcon,
+  16: ClockieChaosIcon,
 };
 
 type Mission = {
