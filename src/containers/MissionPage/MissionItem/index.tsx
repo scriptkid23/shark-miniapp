@@ -154,6 +154,7 @@ const MissionItem = (props: Props) => {
 
     if (telegramLinkPattern.test(mission.description)) {
       utils.openTelegramLink(mission.description);
+      handleMission(mission)
     } else {
       utils.openLink(mission.description);
     }
