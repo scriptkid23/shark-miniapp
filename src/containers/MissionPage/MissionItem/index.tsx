@@ -13,6 +13,7 @@ import PotusClickIcon from "@/assets/icons/mission/potus-click.png";
 import TapAdventureIcon from "@/assets/icons/mission/tap-adventure.png";
 import TonCookIcon from "@/assets/icons/mission/ton-cook.png";
 import BeeVerseIcon from "@/assets/icons/mission/bee-verse.png";
+import ScrooGIcon from "@/assets/icons/mission/scroo-g.png";
 
 import { checkMission } from "@/apis";
 import { address, Address, beginCell } from "@ton/core";
@@ -49,6 +50,7 @@ export const MissionIconType = {
   12: TapAdventureIcon,
   13: TonCookIcon,
   14: BeeVerseIcon,
+  15: ScrooGIcon,
 };
 
 type Mission = {
