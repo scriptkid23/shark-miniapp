@@ -1,32 +1,30 @@
-import NodeGlobalsPolyfillPlugin from '@esbuild-plugins/node-globals-polyfill';
-import react from '@vitejs/plugin-react-swc';
-import path from 'path';
-import { defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import NodeGlobalsPolyfillPlugin from "@esbuild-plugins/node-globals-polyfill";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { defineConfig } from "vite";
+import tsconfigPaths from "vite-tsconfig-paths";
+import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfill";
 // https://vitejs.dev/config/
-import mkcert from 'vite-plugin-mkcert';
+import mkcert from "vite-plugin-mkcert";
 export default defineConfig({
-  base: '/',
+  base: "/",
   plugins: [react(), mkcert()],
   server: {
-    host: '192.168.1.26',
-    port: 3001,
-    https: true,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4173, // Use the environment variable for the port, fallback to 4173
   },
   preview: {
-    port: 3000,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
   },
-  publicDir: './public',
+  publicDir: "./public",
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   optimizeDeps: {
     esbuildOptions: {
       define: {
-        global: 'globalThis',
+        global: "globalThis",
       },
       plugins: [
         NodeGlobalsPolyfillPlugin({

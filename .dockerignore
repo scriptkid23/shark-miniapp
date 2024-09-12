@@ -1,0 +1,6 @@
+# Ignore node_modules and other files that aren't needed for the Docker image
+node_modules
+.dockerignore
+Dockerfile
+.env
+.next/cache
