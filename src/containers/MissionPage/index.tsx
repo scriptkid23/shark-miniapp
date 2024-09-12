@@ -1,13 +1,12 @@
-import { Missions, useSharkStore } from '@/stores/shark_store';
-import { useEffect } from 'react';
-import MissionItem, { MissionStatus } from './MissionItem';
-import MisstionTypeWrapper from './MisssionTypeWrapper';
+import { Missions, useSharkStore } from "@/stores/shark_store";
+import { useEffect } from "react";
+import MissionItem, { MissionStatus } from "./MissionItem";
+import MisstionTypeWrapper from "./MisssionTypeWrapper";
 
 type Props = {};
 
 const MissionPage = (props: Props) => {
-  const { missions, getMissions,partnerMissions } = useSharkStore();
-
+  const { missions, getMissions, partnerMissions } = useSharkStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +28,12 @@ const MissionPage = (props: Props) => {
                 <div className="mt-5">
                   {mission.missions.map((missionItem, index) => {
                     return (
-                      <div key={missionItem.id} className={`${index !== mission.missions.length - 1 ? 'mb-5' : ''}`}>
+                      <div
+                        key={missionItem.id}
+                        className={`${
+                          index !== mission.missions.length - 1 ? "mb-5" : ""
+                        }`}
+                      >
                         <MissionItem mission={missionItem} />
                       </div>
                     );
@@ -40,23 +44,33 @@ const MissionPage = (props: Props) => {
           );
         })}
         <h3 className="text-lg font-bold mb-5">Shark Alliance</h3>
-        {partnerMissions && partnerMissions.map((partnerMission, index) => {
-          return (
-            <div key={index} className="mb-5">
-              <MisstionTypeWrapper title={partnerMission.name} isPartner>
-                <div className="mt-5">
-                  {partnerMission.missions.map((missionItem, index) => {
-                    return (
-                      <div key={missionItem.id} className={`${index !== partnerMission.missions.length - 1 ? 'mb-5' : ''}`}>
-                        <MissionItem mission={missionItem} />
-                      </div>
-                    );
-                  })}
+        {partnerMissions &&
+          partnerMissions.map((partnerMission, index) => {
+            return (
+              partnerMission.missions.length > 0 && (
+                <div key={index} className="mb-5">
+                  <MisstionTypeWrapper title={partnerMission.name} isPartner>
+                    <div className="mt-5">
+                      {partnerMission.missions.map((missionItem, index) => {
+                        return (
+                          <div
+                            key={missionItem.id}
+                            className={`${
+                              index !== partnerMission.missions.length - 1
+                                ? "mb-5"
+                                : ""
+                            }`}
+                          >
+                            <MissionItem mission={missionItem} />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </MisstionTypeWrapper>
                 </div>
-              </MisstionTypeWrapper>
-            </div>
-          );
-        })}
+              )
+            );
+          })}
       </div>
     </div>
   );
