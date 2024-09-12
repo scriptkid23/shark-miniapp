@@ -8,10 +8,7 @@ import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfil
 import mkcert from "vite-plugin-mkcert";
 export default defineConfig({
   base: "/",
-  plugins: [react(), mkcert()],
-  server: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 4173, // Use the environment variable for the port, fallback to 4173
-  },
+  plugins: [react()],
   preview: {
     port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
   },
