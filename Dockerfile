@@ -17,4 +17,4 @@ RUN npm run build
 
 
 # Start the application in production mode
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "start"]
