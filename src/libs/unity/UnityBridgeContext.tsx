@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+} from "react";
 import { useUnityContext } from "react-unity-webgl";
 import { Address, beginCell, toNano } from "@ton/core";
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
@@ -43,11 +48,11 @@ export default function UnityBridgeProvider({
       codeUrl: codeUrl,
     });
 
-  const onRequestWalletConnection = () => {};
+  const onRequestWalletConnection = useCallback(() => {}, []);
 
-  const onPurchaseItemRequest = () => {};
+  const onPurchaseItemRequest = useCallback(() => {}, []);
 
-  const onRequestBackToHomePage = () => {};
+  const onRequestBackToHomePage = useCallback(() => {}, []);
 
   useEffect(() => {
     addEventListener(

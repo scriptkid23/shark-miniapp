@@ -1,8 +1,8 @@
-import { PropsWithChildren } from 'react';
-import { Outlet } from 'react-router-dom';
-import NavbarRedirect from './NavbarRedirect';
-import { useSharkStore } from '@/stores/shark_store';
-import { FirstLoginModal } from '@/components/Modals/FirstLoginModal';
+import { PropsWithChildren } from "react";
+import { Outlet } from "react-router-dom";
+import NavbarRedirect from "./NavbarRedirect";
+import { useSharkStore } from "@/stores/shark_store";
+import { FirstLoginModal } from "@/components/Modals/FirstLoginModal";
 
 const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const { isFirstLogin } = useSharkStore((state) => state);
