@@ -101,23 +101,6 @@ const HeadBanner = () => {
 };
 
 const HomePage = () => {
-  const loadResourcesInBackground = async () => {
-    try {
-      await Promise.all([
-        fetch(loaderUrl),
-        fetch(dataUrl),
-        fetch(frameworkUrl),
-        fetch(codeUrl),
-      ]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    loadResourcesInBackground();
-  }, []);
-
   return (
     <div className="w-full h-full m-auto overflow-y-auto relative">
       <div className="w-full absolute top-0 left-0">
