@@ -6,6 +6,7 @@ import { numberWithCommas } from '@/utils';
 import { useTonConnectUI, useTonWallet } from '@tonconnect/ui-react';
 import { useNavigate } from 'react-router-dom';
 import RewardContainer from './RewardContainer';
+import GameContainer from './GameContainer';
 
 export const Wallet = () => {
   const wallet = useTonWallet();
@@ -94,6 +95,7 @@ const HomePage = () => {
 
       <div className="min-w-0 mx-auto pt-[28vh] transform px-4 h-full ">
         <HeadBanner />
+        <GameContainer />
         <RewardContainer />
       </div>
     </div>

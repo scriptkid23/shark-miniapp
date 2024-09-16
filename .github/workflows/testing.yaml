@@ -1,0 +1,33 @@
+name: Build Image and Deploy Testing environment
+
+on:
+  push:
+    branches: ["testing"]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push to ECR
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.ECR_REPOSITORY_URI }}:latest
+
+      - name: Deploy Image to CapRover
+        uses: caprover/deploy-from-github@v1.1.2
+        with:
+          server: ${{ secrets.CAPROVER_SERVER_TESTING }}
+          app: ${{ secrets.CAPROVER_APP_NAME_TESTING }}
+          token: ${{ secrets.CAPROVER_APP_TOKEN_TESTING }}
+          image: ${{ secrets.ECR_REPOSITORY_URI }}:latest
