@@ -2,6 +2,7 @@ import { useSharkStore } from '@/stores/shark_store';
 import { getLevel, stripVal } from '@/utils';
 import { address } from '@ton/core';
 import RewardItem, { RewardItemProps } from './RewardItem';
+import GameContainer from '../GameContainer';
 type Props = {};
 
 const FAKE_REWARDS = [
