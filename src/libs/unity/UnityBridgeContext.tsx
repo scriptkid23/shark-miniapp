@@ -10,16 +10,9 @@ import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
 import { GameEvents, UnityClassName } from "@/constant";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/react-unity-event-parameters";
-import { useTonConnectModal, useTonWallet } from "@tonconnect/ui-react";
-import SharkLogo from "@/assets/icons/shark_icon.svg";
+import { useTonConnectModal } from "@tonconnect/ui-react";
+import Loading from "@/components/Loading";
 
-function Loading() {
-  return (
-    <div className="h-screen w-full flex justify-center items-center">
-      <img src={SharkLogo} />
-    </div>
-  );
-}
 type UnityBridgeContextType = {
   unityProvider: any;
   isLoaded: boolean;
@@ -54,7 +47,7 @@ export default function UnityBridgeProvider({
   const {
     unityProvider,
     isLoaded,
-
+    loadingProgression,
     sendMessage,
     addEventListener,
     removeEventListener,
@@ -156,7 +149,7 @@ export default function UnityBridgeProvider({
         removeEventListener,
       }}
     >
-      {!isLoaded && <Loading />}
+      {!isLoaded && <Loading progress={loadingProgression} />}
       {children}
     </UnityBridgeContext.Provider>
   );
