@@ -7,8 +7,10 @@ import React, {
 import { useUnityContext } from "react-unity-webgl";
 import { Address, beginCell, toNano } from "@ton/core";
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
-import { GameEvents } from "@/constant";
+import { GameEvents, UnityClassName } from "@/constant";
 import { useTonConnect } from "@/hooks/useTonConnect";
+import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/react-unity-event-parameters";
+import { useTonConnectModal, useTonWallet } from "@tonconnect/ui-react";
 
 type UnityBridgeContextType = {
   unityProvider: any;
@@ -47,32 +49,58 @@ export default function UnityBridgeProvider({
       frameworkUrl: frameworkUrl,
       codeUrl: codeUrl,
     });
+  const { open, state } = useTonConnectModal();
+  const wallet = useTonWallet();
 
-  const onRequestWalletConnection = useCallback(() => {}, []);
+  const { sender, connected } = useTonConnect();
 
-  const onPurchaseItemRequest = useCallback(() => {}, []);
+  const onHandleUnityMessage = useCallback(
+    (...parameters: ReactUnityEventParameter[]) => {
+      try {
+        if (!connected) {
+          open();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    []
+  );
 
-  const onRequestBackToHomePage = useCallback(() => {}, []);
+  // Listen for the pending and connected status
+  useEffect(() => {
+    if (wallet) {
+      handleWalletConnected();
+    }
+  }, [wallet]);
+
+  const handleWalletConnected = () => {
+    sendMessage(
+      UnityClassName,
+      GameEvents.WALLET_CONNECTED,
+      JSON.stringify({ wallet })
+    );
+  };
+
+  const onHandleFireAndForget = useCallback(() => {}, []);
+
+  const onGetPlayerDataFromJS = useCallback(() => {}, []);
 
   useEffect(() => {
     addEventListener(
       GameEvents.REQUEST_WALLET_CONNECTION,
-      onRequestWalletConnection
+      onHandleUnityMessage
     );
-
-    addEventListener(
-      GameEvents.REQUEST_BACK_TO_HOMEPAGE,
-      onRequestBackToHomePage
-    );
-
-    addEventListener(GameEvents.PURCHASE_ITEM_REQUEST, onPurchaseItemRequest);
+    addEventListener(GameEvents.HANDLE_UNITY_MESSAGE, onHandleUnityMessage);
+    addEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, onHandleFireAndForget);
+    addEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, onGetPlayerDataFromJS);
 
     return () => {
-      removeEventListener("GameOver", () => {});
+      removeEventListener(GameEvents.HANDLE_UNITY_MESSAGE, () => {});
+      removeEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, () => {});
+      removeEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, () => {});
     };
   }, [removeEventListener, addEventListener]);
-
-  const { sender, connected } = useTonConnect();
 
   const sendTransaction = async (
     to: string,
@@ -96,8 +124,8 @@ export default function UnityBridgeProvider({
     }
   };
 
-  const { initDataRaw } = retrieveLaunchParams();
-  console.log(initDataRaw);
+  // const { initDataRaw } = retrieveLaunchParams();
+  // console.log(initDataRaw);
 
   return (
     <UnityBridgeContext.Provider
@@ -109,6 +137,7 @@ export default function UnityBridgeProvider({
       }}
     >
       {children}
+      <button onClick={handleWalletConnected}>submit</button>
     </UnityBridgeContext.Provider>
   );
 }

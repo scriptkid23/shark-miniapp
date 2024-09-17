@@ -14,7 +14,6 @@ export function useTonConnect(): {
   return {
     sender: {
       send: async (args: SenderArguments) => {
-        console.log(args.to.toString());
         tonConnectUI.sendTransaction({
           messages: [
             {
