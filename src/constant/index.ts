@@ -11,6 +11,7 @@ export const GameEvents = {
   WALLET_CONNECTED: "WalletConnected", // Wallet has been connected
   PURCHASE_ITEM_SUCCESS: "PurchaseItemSuccess", // Item purchase successful
   PURCHASE_ITEM_FAILURE: "PurchaseItemFailure", // Item purchase failed
+  START_GAME: "StartGame",
 };
 
 export const UnityClassName = "UIManager";
