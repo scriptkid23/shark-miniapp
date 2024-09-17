@@ -12,6 +12,7 @@ import { useTonConnect } from "@/hooks/useTonConnect";
 import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/react-unity-event-parameters";
 import { useTonConnectModal } from "@tonconnect/ui-react";
 import Loading from "@/components/Loading";
+import { useTonClient } from "@/hooks/useTonClient";
 
 type UnityBridgeContextType = {
   unityProvider: any;
@@ -63,6 +64,8 @@ export default function UnityBridgeProvider({
 
   const { sender, connected, wallet } = useTonConnect();
 
+  const { client } = useTonClient();
+
   const onHandleUnityMessage = useCallback(
     (...parameters: ReactUnityEventParameter[]) => {
       try {
@@ -76,20 +79,32 @@ export default function UnityBridgeProvider({
     []
   );
 
-  // Listen for the pending and connected status
   useEffect(() => {
     if (wallet) {
       handleWalletConnected();
     }
   }, [wallet]);
 
-  const handleWalletConnected = () => {
+  const handleWalletConnected = async () => {
+    sendMessage(UnityClassName, GameEvents.WALLET_CONNECTED);
+  };
+
+  const handleStartGame = async () => {
+    console.log("trigger handleStartGame");
     sendMessage(
       UnityClassName,
-      GameEvents.WALLET_CONNECTED,
-      JSON.stringify({ wallet })
+      GameEvents.START_GAME,
+      JSON.stringify({ token: initDataRaw })
     );
   };
+
+  useEffect(() => {
+    if (isLoaded) {
+      handleStartGame();
+    }
+  }, [isLoaded]);
+
+  console.log(wallet);
 
   const onHandleFireAndForget = useCallback(() => {}, []);
 
