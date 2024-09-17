@@ -37,6 +37,7 @@ function App() {
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
+  console.log("trigger")
 
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
