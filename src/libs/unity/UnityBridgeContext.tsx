@@ -11,9 +11,18 @@ import { GameEvents, UnityClassName } from "@/constant";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/react-unity-event-parameters";
 import { useTonConnectModal, useTonWallet } from "@tonconnect/ui-react";
+import SharkLogo from "@/assets/icons/shark_icon.svg";
 
+function Loading() {
+  return (
+    <div className="h-screen w-full flex justify-center items-center">
+      <img src={SharkLogo} />
+    </div>
+  );
+}
 type UnityBridgeContextType = {
   unityProvider: any;
+  isLoaded: boolean;
   sendMessage: (gameObject: string, methodName: string, value?: any) => void;
   addEventListener: (
     eventName: string,
@@ -42,17 +51,24 @@ export default function UnityBridgeProvider({
   codeUrl,
   children,
 }: Props) {
-  const { unityProvider, sendMessage, addEventListener, removeEventListener } =
-    useUnityContext({
-      loaderUrl: loaderUrl,
-      dataUrl: dataUrl,
-      frameworkUrl: frameworkUrl,
-      codeUrl: codeUrl,
-    });
-  const { open, state } = useTonConnectModal();
-  const wallet = useTonWallet();
+  const {
+    unityProvider,
+    isLoaded,
 
-  const { sender, connected } = useTonConnect();
+    sendMessage,
+    addEventListener,
+    removeEventListener,
+  } = useUnityContext({
+    loaderUrl: loaderUrl,
+    dataUrl: dataUrl,
+    frameworkUrl: frameworkUrl,
+    codeUrl: codeUrl,
+  });
+  const { open } = useTonConnectModal();
+
+  const { initDataRaw } = retrieveLaunchParams();
+
+  const { sender, connected, wallet } = useTonConnect();
 
   const onHandleUnityMessage = useCallback(
     (...parameters: ReactUnityEventParameter[]) => {
@@ -86,7 +102,10 @@ export default function UnityBridgeProvider({
 
   const onGetPlayerDataFromJS = useCallback(() => {}, []);
 
+  console.log(isLoaded);
   useEffect(() => {
+    if (!isLoaded) return;
+
     addEventListener(
       GameEvents.REQUEST_WALLET_CONNECTION,
       onHandleUnityMessage
@@ -100,7 +119,7 @@ export default function UnityBridgeProvider({
       removeEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, () => {});
       removeEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, () => {});
     };
-  }, [removeEventListener, addEventListener]);
+  }, [isLoaded, removeEventListener, addEventListener]);
 
   const sendTransaction = async (
     to: string,
@@ -124,20 +143,21 @@ export default function UnityBridgeProvider({
     }
   };
 
-  // const { initDataRaw } = retrieveLaunchParams();
   // console.log(initDataRaw);
 
   return (
     <UnityBridgeContext.Provider
       value={{
+        isLoaded,
         unityProvider,
+
         sendMessage,
         addEventListener,
         removeEventListener,
       }}
     >
+      {!isLoaded && <Loading />}
       {children}
-      <button onClick={handleWalletConnected}>submit</button>
     </UnityBridgeContext.Provider>
   );
 }
