@@ -14,15 +14,13 @@ const GameContainer = () => {
         <img src={GameBannerImage} alt="game" className="w-full h-full" />
         <div className="absolute bottom-0 left-0 right-0 w-full">
           <div className="text-white text-center text-xs font-medium font-rubik flex items-end justify-between pb-4 px-4">
-            <p onClick={() => navigate('/shark-game')}>Earn infinite $TON with Shark</p>
+            <p>Earn infinite $TON with Shark</p>
 
             <button
               className="flex justify-center items-center px-3 py-2 rounded-lg bg-[#245BD3]"
-              onClick={() => {
-                console.log("Coming Soon");
-              }}
+              onClick={() => navigate("/shark-game")}
             >
-              Coming Soon
+              Play
             </button>
           </div>
         </div>

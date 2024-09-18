@@ -11,10 +11,10 @@ export function useTonConnect(): {
   const [tonConnectUI] = useTonConnectUI();
   const wallet = useTonWallet();
 
+  console.log(wallet);
   return {
     sender: {
       send: async (args: SenderArguments) => {
-        console.log(args.to.toString());
         tonConnectUI.sendTransaction({
           messages: [
             {

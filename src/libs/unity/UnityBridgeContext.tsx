@@ -7,11 +7,16 @@ import React, {
 import { useUnityContext } from "react-unity-webgl";
 import { Address, beginCell, toNano } from "@ton/core";
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react";
-import { GameEvents } from "@/constant";
+import { GameEvents, UnityClassName } from "@/constant";
 import { useTonConnect } from "@/hooks/useTonConnect";
+import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/react-unity-event-parameters";
+import { useTonConnectModal } from "@tonconnect/ui-react";
+import Loading from "@/components/Loading";
+import { useTonClient } from "@/hooks/useTonClient";
 
 type UnityBridgeContextType = {
   unityProvider: any;
+  isLoaded: boolean;
   sendMessage: (gameObject: string, methodName: string, value?: any) => void;
   addEventListener: (
     eventName: string,
@@ -40,39 +45,89 @@ export default function UnityBridgeProvider({
   codeUrl,
   children,
 }: Props) {
-  const { unityProvider, sendMessage, addEventListener, removeEventListener } =
-    useUnityContext({
-      loaderUrl: loaderUrl,
-      dataUrl: dataUrl,
-      frameworkUrl: frameworkUrl,
-      codeUrl: codeUrl,
-    });
+  const {
+    unityProvider,
+    isLoaded,
+    loadingProgression,
+    sendMessage,
+    addEventListener,
+    removeEventListener,
+  } = useUnityContext({
+    loaderUrl: loaderUrl,
+    dataUrl: dataUrl,
+    frameworkUrl: frameworkUrl,
+    codeUrl: codeUrl,
+  });
+  const { open } = useTonConnectModal();
 
-  const onRequestWalletConnection = useCallback(() => {}, []);
+  const { initDataRaw } = retrieveLaunchParams();
 
-  const onPurchaseItemRequest = useCallback(() => {}, []);
+  const { sender, connected, wallet } = useTonConnect();
 
-  const onRequestBackToHomePage = useCallback(() => {}, []);
+  const { client } = useTonClient();
+
+  const onHandleUnityMessage = useCallback(
+    (...parameters: ReactUnityEventParameter[]) => {
+      try {
+        if (!connected) {
+          open();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
+    if (wallet) {
+      handleWalletConnected();
+    }
+  }, [wallet]);
+
+  const handleWalletConnected = async () => {
+    sendMessage(UnityClassName, GameEvents.WALLET_CONNECTED);
+  };
+
+  const handleStartGame = async () => {
+    console.log("trigger handleStartGame");
+    sendMessage(
+      UnityClassName,
+      GameEvents.START_GAME,
+      JSON.stringify({ token: initDataRaw })
+    );
+  };
+
+  useEffect(() => {
+    if (isLoaded) {
+      handleStartGame();
+    }
+  }, [isLoaded]);
+
+  console.log(wallet);
+
+  const onHandleFireAndForget = useCallback(() => {}, []);
+
+  const onGetPlayerDataFromJS = useCallback(() => {}, []);
+
+  console.log(isLoaded);
+  useEffect(() => {
+    if (!isLoaded) return;
+
     addEventListener(
       GameEvents.REQUEST_WALLET_CONNECTION,
-      onRequestWalletConnection
+      onHandleUnityMessage
     );
-
-    addEventListener(
-      GameEvents.REQUEST_BACK_TO_HOMEPAGE,
-      onRequestBackToHomePage
-    );
-
-    addEventListener(GameEvents.PURCHASE_ITEM_REQUEST, onPurchaseItemRequest);
+    addEventListener(GameEvents.HANDLE_UNITY_MESSAGE, onHandleUnityMessage);
+    addEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, onHandleFireAndForget);
+    addEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, onGetPlayerDataFromJS);
 
     return () => {
-      removeEventListener("GameOver", () => {});
+      removeEventListener(GameEvents.HANDLE_UNITY_MESSAGE, () => {});
+      removeEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, () => {});
+      removeEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, () => {});
     };
-  }, [removeEventListener, addEventListener]);
-
-  const { sender, connected } = useTonConnect();
+  }, [isLoaded, removeEventListener, addEventListener]);
 
   const sendTransaction = async (
     to: string,
@@ -96,18 +151,20 @@ export default function UnityBridgeProvider({
     }
   };
 
-  const { initDataRaw } = retrieveLaunchParams();
-  console.log(initDataRaw);
+  // console.log(initDataRaw);
 
   return (
     <UnityBridgeContext.Provider
       value={{
+        isLoaded,
         unityProvider,
+
         sendMessage,
         addEventListener,
         removeEventListener,
       }}
     >
+      {!isLoaded && <Loading progress={loadingProgression} />}
       {children}
     </UnityBridgeContext.Provider>
   );
