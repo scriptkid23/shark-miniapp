@@ -1,5 +1,6 @@
 import axiosInstance from '@/axiosConfig';
 import { MissionIconType, MissionStatus } from '@/containers/MissionPage/MissionItem';
+import { sleep } from '@/utils';
 import { initInitData, initMiniApp } from '@telegram-apps/sdk';
 import { create } from 'zustand';
 
@@ -470,6 +471,7 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   isFirstLogin: false,
   initStore: async () => {
     const [isMiniApp] = initMiniApp();
+    set({ isInitFinished: false });
     // console.log(isMiniApp);
     if (!isMiniApp.ready) {
       return;
