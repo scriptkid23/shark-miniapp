@@ -488,6 +488,9 @@ export const useSharkStore = create<SharkState>()((set, get) => ({
   },
 
   login: async () => {
+    // const a = sleep(1000);
+    // await a.promise;
+    // return
     const initData = initInitData();
 
     if (!initData?.user) {

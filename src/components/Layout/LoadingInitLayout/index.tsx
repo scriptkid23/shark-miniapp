@@ -1,5 +1,6 @@
 import SharkLogo from '@/assets/icons/shark_icon.svg';
 import { useSharkStore } from '@/stores/shark_store';
+import { on } from '@telegram-apps/sdk';
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 type Props = {};
@@ -10,14 +11,7 @@ const LoadingInitLayout = (props: Props) => {
   useEffect(() => {
     initStore();
   }, []);
-  const location = useLocation();
-  console.log('location', location);
-  useEffect(() => {
-    console.log('location', location);
-    if (location.pathname === '/' && location.state?.from === '/shark-game') {
-      initStore();
-    }
-  }, [location.pathname, location.state]);
+
   return isInitFinished ? (
     <Outlet />
   ) : (
