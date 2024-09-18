@@ -18,7 +18,7 @@ const GameContainer = () => {
 
             <button
               className="flex justify-center items-center px-3 py-2 rounded-lg bg-[#245BD3]"
-              onClick={() => navigate("/shark-game")}
+              onClick={() => navigate("/shark-game", { state: { from: "/shark-game" } })}
             >
               Play
             </button>
