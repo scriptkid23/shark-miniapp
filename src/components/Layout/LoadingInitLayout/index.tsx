@@ -13,6 +13,7 @@ const LoadingInitLayout = (props: Props) => {
   const location = useLocation();
 
   useEffect(() => {
+    console.log('location', location);
     if (location.pathname === '/' && location.state?.from === '/shark-game') {
       initStore();
     }
