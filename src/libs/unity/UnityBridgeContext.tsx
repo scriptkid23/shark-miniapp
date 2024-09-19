@@ -80,6 +80,7 @@ export default function UnityBridgeProvider({
     []
   );
 
+  console.log({ seller: import.meta.env.VITE_SELLER_ADDRESS });
   useEffect(() => {
     if (isLoaded && wallet) {
       handleWalletConnected();
