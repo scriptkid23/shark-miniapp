@@ -41,7 +41,7 @@ const NavbarRedirect = () => {
 
   const isActive = (path: string) => pathname === path;
 
-  const handleNavigate = (path: string) => navigate(path);
+  const handleNavigate = (path: string) => navigate(path, { state: { from: pathname } });
 
   return (
    

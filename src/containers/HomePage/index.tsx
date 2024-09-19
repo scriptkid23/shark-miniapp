@@ -3,12 +3,10 @@ import HomeBannerImg from "@/assets/images/home-banner.png";
 import WalletButton from "@/components/WalletButton";
 import { useSharkStore } from "@/stores/shark_store";
 import { numberWithCommas } from "@/utils";
-import { useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
+import { useTonWallet } from "@tonconnect/ui-react";
 import { useNavigate } from "react-router-dom";
-import RewardContainer from "./RewardContainer";
 import GameContainer from "./GameContainer";
-import { codeUrl, dataUrl, frameworkUrl, loaderUrl } from "@/config";
-import { useEffect } from "react";
+import RewardContainer from "./RewardContainer";
 
 export const Wallet = () => {
   const wallet = useTonWallet();
