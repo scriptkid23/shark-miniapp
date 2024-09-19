@@ -80,10 +80,10 @@ export default function UnityBridgeProvider({
   );
 
   useEffect(() => {
-    if (wallet) {
+    if (isLoaded && wallet) {
       handleWalletConnected();
     }
-  }, [wallet]);
+  }, [wallet, isLoaded]);
 
   const handleWalletConnected = async () => {
     sendMessage(UnityClassName, GameEvents.WALLET_CONNECTED);
@@ -170,7 +170,6 @@ export default function UnityBridgeProvider({
   );
 }
 
-// Custom hook để truy cập context dễ dàng
 export const useUnityBridge = () => {
   const context = useContext(UnityBridgeContext);
   if (!context) {
