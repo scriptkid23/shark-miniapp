@@ -80,7 +80,6 @@ export default function UnityBridgeProvider({
     []
   );
 
-  console.log({ seller: import.meta.env.VITE_SELLER_ADDRESS });
   useEffect(() => {
     if (isLoaded && wallet) {
       handleWalletConnected();
@@ -111,13 +110,22 @@ export default function UnityBridgeProvider({
 
   const onPurchaseItemRequest = useCallback(
     (...parameters: ReactUnityEventParameter[]) => {
-      console.log(parameters);
       try {
         const {
           values: [{ txhash, price }], // Default txHash to null and price to 0.1 if not provided
         } = JSON.parse(parameters[0] as string);
-        console.log(price, txhash, to);
-        sendTransaction(to, price.toString(), txhash);
+
+        console.log({
+          seller: import.meta.env.VITE_SELLER_ADDRESS,
+          price: price.toString(),
+          txhash,
+        });
+
+        sendTransaction(
+          import.meta.env.VITE_SELLER_ADDRESS,
+          price.toString(),
+          txhash
+        );
       } catch (error) {
         console.error("Failed to parse values", error);
       }
