@@ -13,6 +13,7 @@ export default defineConfig({
     host: "0.0.0.0", // Bind to all network interfaces for preview mode as well
     port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
   },
+
   publicDir: "./public",
   resolve: {
     alias: {

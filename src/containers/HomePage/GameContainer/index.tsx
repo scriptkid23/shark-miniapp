@@ -1,6 +1,9 @@
-import GameBannerImage from '@/assets/images/game-banner.png';
-import VaultIcon from '@/assets/icons/vault.png';
+import GameBannerImage from "@/assets/images/game-banner.png";
+import VaultIcon from "@/assets/icons/vault.png";
+import { useNavigate } from "react-router-dom";
 const GameContainer = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <h2 className="text-lg font-semibold mb-2 mt-6 flex items-center">
@@ -15,11 +18,9 @@ const GameContainer = () => {
 
             <button
               className="flex justify-center items-center px-3 py-2 rounded-lg bg-[#245BD3]"
-              onClick={() => {
-                console.log('Coming Soon');
-              }}
+              onClick={() => navigate("/shark-game", { state: { from: "/shark-game" } })}
             >
-              Coming Soon
+              Play
             </button>
           </div>
         </div>

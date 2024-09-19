@@ -27,6 +27,7 @@ import "./index.css";
 import { AppRoot } from "@telegram-apps/telegram-ui";
 import { NextUIProvider } from "@nextui-org/react";
 import ConnectWalletNotification from "./components/ConnectWalletNotification";
+import SharkGamePage from "./containers/SharkGamePage";
 
 function App() {
   const lp = useLaunchParams();
@@ -37,6 +38,7 @@ function App() {
   useEffect(() => {
     return bindMiniAppCSSVars(miniApp, themeParams);
   }, [miniApp, themeParams]);
+  console.log("trigger")
 
   useEffect(() => {
     return bindThemeParamsCSSVars(themeParams);
@@ -71,6 +73,7 @@ function App() {
                     <Route path="/friends" element={<FriendsPage />} />
                     <Route path="/missions" element={<MissionPage />} />
                   </Route>
+                  <Route path="/shark-game" element={<SharkGamePage />} />
                   <Route path="/stories" element={<StoriesPage />} />
                   <Route
                     path="/loading-transaction"
