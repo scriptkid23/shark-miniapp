@@ -3,9 +3,6 @@ export const GameEvents = {
   REQUEST_BACK_TO_HOMEPAGE: "RequestBackToHomePage",
   REQUEST_WALLET_CONNECTION: "RequestWalletConnection", // Check if the wallet is connected
   PURCHASE_ITEM_REQUEST: "PurchaseItemRequest", // Request to purchase an item
-  HANDLE_UNITY_MESSAGE: "HandleUnityMessage",
-  HANDLE_FIRE_AND_FORGET: "HandleFireAndForget",
-  GET_PLAYER_DATA_FROM_JS: "GetPlayerDataFromJS",
 
   // React -> Unity
   WALLET_CONNECTED: "WalletConnected", // Wallet has been connected
