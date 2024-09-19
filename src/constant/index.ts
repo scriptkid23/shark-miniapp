@@ -9,6 +9,7 @@ export const GameEvents = {
   PURCHASE_ITEM_SUCCESS: "PurchaseItemSuccess", // Item purchase successful
   PURCHASE_ITEM_FAILURE: "PurchaseItemFailure", // Item purchase failed
   START_GAME: "StartGame",
+  ERROR_REQUEST: "ErrorRequest", // Error
 };
 
 export const UnityClassName = "UIManager";

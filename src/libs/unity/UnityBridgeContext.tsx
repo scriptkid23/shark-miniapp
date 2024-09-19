@@ -163,8 +163,8 @@ export default function UnityBridgeProvider({
         body: payload,
       });
     } catch (error) {
-      console.error("Error sending transaction:", error);
-      alert("Failed to send transaction.");
+      console.log("Error sending transaction:", error);
+      sendMessage(UnityClassName, GameEvents.ERROR_REQUEST);
     }
   };
 
