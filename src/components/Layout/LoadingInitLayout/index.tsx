@@ -1,7 +1,8 @@
-import SharkLogo from "@/assets/icons/shark_icon.svg";
-import { useSharkStore } from "@/stores/shark_store";
-import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import SharkLogo from '@/assets/icons/shark_icon.svg';
+import { useSharkStore } from '@/stores/shark_store';
+import { on } from '@telegram-apps/sdk';
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 type Props = {};
 
 const LoadingInitLayout = (props: Props) => {

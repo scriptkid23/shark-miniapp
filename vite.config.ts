@@ -8,7 +8,7 @@ import { NodeModulesPolyfillPlugin } from "@esbuild-plugins/node-modules-polyfil
 import mkcert from "vite-plugin-mkcert";
 export default defineConfig({
   base: "/",
-  plugins: [react(), mkcert()],
+  plugins: [react()],
   preview: {
     host: "0.0.0.0", // Bind to all network interfaces for preview mode as well
     port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
