@@ -13,6 +13,7 @@ import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/r
 import { useTonConnectModal } from "@tonconnect/ui-react";
 import Loading from "@/components/Loading";
 import { useTonClient } from "@/hooks/useTonClient";
+import { to } from "@/config";
 
 type UnityBridgeContextType = {
   unityProvider: any;
@@ -80,17 +81,16 @@ export default function UnityBridgeProvider({
   );
 
   useEffect(() => {
-    if (wallet) {
+    if (isLoaded && wallet) {
       handleWalletConnected();
     }
-  }, [wallet]);
+  }, [wallet, isLoaded]);
 
   const handleWalletConnected = async () => {
     sendMessage(UnityClassName, GameEvents.WALLET_CONNECTED);
   };
 
   const handleStartGame = async () => {
-    console.log("trigger handleStartGame");
     sendMessage(
       UnityClassName,
       GameEvents.START_GAME,
@@ -104,13 +104,35 @@ export default function UnityBridgeProvider({
     }
   }, [isLoaded]);
 
-  console.log(wallet);
-
   const onHandleFireAndForget = useCallback(() => {}, []);
 
   const onGetPlayerDataFromJS = useCallback(() => {}, []);
 
-  console.log(isLoaded);
+  const onPurchaseItemRequest = useCallback(
+    (...parameters: ReactUnityEventParameter[]) => {
+      try {
+        const {
+          values: [{ txhash, price }], // Default txHash to null and price to 0.1 if not provided
+        } = JSON.parse(parameters[0] as string);
+
+        console.log({
+          seller: import.meta.env.VITE_SELLER_ADDRESS,
+          price: price.toString(),
+          txhash,
+        });
+
+        sendTransaction(
+          import.meta.env.VITE_SELLER_ADDRESS,
+          price.toString(),
+          txhash
+        );
+      } catch (error) {
+        console.error("Failed to parse values", error);
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -118,15 +140,10 @@ export default function UnityBridgeProvider({
       GameEvents.REQUEST_WALLET_CONNECTION,
       onHandleUnityMessage
     );
-    addEventListener(GameEvents.HANDLE_UNITY_MESSAGE, onHandleUnityMessage);
-    addEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, onHandleFireAndForget);
-    addEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, onGetPlayerDataFromJS);
 
-    return () => {
-      removeEventListener(GameEvents.HANDLE_UNITY_MESSAGE, () => {});
-      removeEventListener(GameEvents.HANDLE_FIRE_AND_FORGET, () => {});
-      removeEventListener(GameEvents.GET_PLAYER_DATA_FROM_JS, () => {});
-    };
+    addEventListener(GameEvents.PURCHASE_ITEM_REQUEST, onPurchaseItemRequest);
+
+    return () => {};
   }, [isLoaded, removeEventListener, addEventListener]);
 
   const sendTransaction = async (
@@ -137,7 +154,7 @@ export default function UnityBridgeProvider({
     try {
       const payload = beginCell()
         .storeUint(0, 32)
-        .storeBuffer(Buffer.from(message))
+        .storeStringTail(message)
         .endCell();
 
       await sender.send({
@@ -146,12 +163,10 @@ export default function UnityBridgeProvider({
         body: payload,
       });
     } catch (error) {
-      console.error("Error sending transaction:", error);
-      alert("Failed to send transaction.");
+      console.log("Error sending transaction:", error);
+      sendMessage(UnityClassName, GameEvents.ERROR_REQUEST);
     }
   };
-
-  // console.log(initDataRaw);
 
   return (
     <UnityBridgeContext.Provider
@@ -170,7 +185,6 @@ export default function UnityBridgeProvider({
   );
 }
 
-// Custom hook để truy cập context dễ dàng
 export const useUnityBridge = () => {
   const context = useContext(UnityBridgeContext);
   if (!context) {

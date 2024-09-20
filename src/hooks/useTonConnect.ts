@@ -15,16 +15,20 @@ export function useTonConnect(): {
   return {
     sender: {
       send: async (args: SenderArguments) => {
-        tonConnectUI.sendTransaction({
-          messages: [
-            {
-              address: args.to.toString({ bounceable: false }),
-              amount: args.value.toString(),
-              payload: args.body?.toBoc().toString("base64") || "",
-            },
-          ],
-          validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
-        });
+        try {
+          await tonConnectUI.sendTransaction({
+            messages: [
+              {
+                address: args.to.toString({ bounceable: false }),
+                amount: args.value.toString(),
+                payload: args.body?.toBoc().toString("base64") || "",
+              },
+            ],
+            validUntil: Date.now() + 5 * 60 * 1000, // 5 minutes for user to approve
+          });
+        } catch (error) {
+          throw new Error(`Failed to send transaction`);
+        }
       },
     },
     connected: !!wallet?.account.address,
