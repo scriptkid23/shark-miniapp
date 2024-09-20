@@ -1,15 +1,15 @@
 // axiosConfig.ts
-import axios, { AxiosInstance } from 'axios';
-import { retrieveLaunchParams } from '@telegram-apps/sdk';
+import axios, { AxiosInstance } from "axios";
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
 
     get: {
-      'ngrok-skip-browser-warning': true,
+      "ngrok-skip-browser-warning": true,
     },
   },
 });
@@ -20,7 +20,8 @@ axiosInstance.interceptors.request.use(
     // Modify config before the request is sent
     // config.headers['ngrok-skip-browser-warning']=true]
     const { initDataRaw } = retrieveLaunchParams();
-    config.headers['Authorization'] = 'tma ' + (initDataRaw as string);
+    console.log(initDataRaw);
+    config.headers["Authorization"] = "tma " + (initDataRaw as string);
     return config;
   },
   (error) => {
